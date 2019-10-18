@@ -3,6 +3,7 @@ package com.citi_team_one.tps.controller;
 
 import com.citi_team_one.tps.mapper.UserMapper;
 import com.citi_team_one.tps.model.User;
+import com.citi_team_one.tps.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -14,7 +15,7 @@ import java.util.List;
 public class TestController {
 
     @Autowired
-    private UserMapper userMapper;
+    private UserService userService;
 
     @RequestMapping("/todos")
     public List<Integer> getAllTodos() {
@@ -26,7 +27,7 @@ public class TestController {
 
     @RequestMapping("/users")
     public List<User> getAllUsers() {
-        List<User> users = userMapper.getAll();
+        List<User> users = userService.findAll();
         return users;
     }
 }
