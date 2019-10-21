@@ -34,6 +34,8 @@ SW可简化为只要有一个Ticket Entry Window + Submit选项 （即Import Tra
 
 和其他表的关联最低要求：输入目标Sys(TradeDestSys)后能显示当前Client Name，或者输入后能自动fetch后续信息
 
+* Sign In / Sign Up时均输入User昵称和密码，Backend自动将User ID绑定到User昵称上
+
 #### 2.2.1 users
 
 id, name, password, role_id
@@ -46,12 +48,14 @@ role_id, role
 
 #### 2.3.1 trader_deals
 
-TxnI, Cusip(Product_ID), Volume, Price, Notional_Principal, TradeOrigSys, TradeDestSys, Timestamp, InterOrigSys, InterI, InterVNum, Ver(Version), Status, RejectCode, RejectReason
+TxnI, Cusip(Product_ID), Volume, Price, Notional_Principal, TradeOrigSys, Trade_Sender, Trade_Receiver, Timestamp, InterOrigSys, InterI, InterVNum, Ver(Version), Status, RejectCode, RejectReason
 
 * 新增
   1. Notional_Principal -  名义本金，即Volume * Price
-  2. TradeDestSys - 记录Trader Leg的Destination，即Sales
-  3. Timestamp - 当前TL记录的时间戳
+  2. TradeOrigSys - 值恒为"TW"，类型为VarChar
+  3. Trade_Sender - 记录Trader Leg的Source用户ID (e.g. T1111)，类型为Int(10)
+  4. Trade_Receiver - 记录Trader Leg的Destination用户ID (e.g. S2222)，类型为Int(10)
+  5. Timestamp - 当前TL记录的时间戳
 
 PK: TxnI
 
@@ -63,12 +67,14 @@ FK: users - id
 
 #### 2.3.2 sales_deals
 
-TxnI, Cusip(Product_ID), Volume, Price, Notional_Principal, TradeOrigSys, TradeDestSys, Timestamp, InterOrigSys, InterI, InterVNum, Ver(Version), Status, RejectCode, RejectReason
+TxnI, Cusip(Product_ID), Volume, Price, Notional_Principal, TradeOrigSys, Trade_Sender, Trade_Receiver, Timestamp, InterOrigSys, InterI, InterVNum, Ver(Version), Status, RejectCode, RejectReason
 
 * 新增
   1. Notional_Principal -  名义本金，即Volume * Price
-  2. TradeDestSys - 记录Trader Leg的Destination，即Trader
-  3. Timestamp - 当前SL记录的时间戳
+  2. TradeOrigSys - 值恒为"SW"，类型为VarChar
+  3. Trade_Sender - 记录Sales Leg的Source用户ID (e.g. S1111)，类型为Int(10)
+  4. Trade_Receiver - 记录Sales Leg的Destination用户ID (e.g. T2222)，类型为Int(10)
+  5. Timestamp - 当前SL记录的时间戳
 
 PK: TxnI
 
