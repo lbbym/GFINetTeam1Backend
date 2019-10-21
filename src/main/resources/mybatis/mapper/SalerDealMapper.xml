@@ -1,0 +1,400 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.citi_team_one.tps.mapper.SalerDealMapper" >
+    <resultMap id="SalerDealResultMap" type="com.citi_team_one.tps.model.SalerDeal" >
+        <constructor>
+            <idArg column="id" javaType="java.lang.Integer" jdbcType="INTEGER" />
+            <arg column="txn_i" javaType="java.lang.Integer" jdbcType="INTEGER" />
+            <arg column="product_id" javaType="java.lang.String" jdbcType="VARCHAR" />
+            <arg column="volume" javaType="java.lang.Integer" jdbcType="INTEGER" />
+            <arg column="price" javaType="java.lang.Double" jdbcType="DOUBLE" />
+            <arg column="notional_principal" javaType="java.lang.Double" jdbcType="DOUBLE" />
+            <arg column="trade_orig_sys" javaType="java.lang.String" jdbcType="VARCHAR" />
+            <arg column="trade_sender" javaType="java.lang.Integer" jdbcType="INTEGER" />
+            <arg column="trade_reciver" javaType="java.lang.Integer" jdbcType="INTEGER" />
+            <arg column="timestamp" javaType="java.util.Date" jdbcType="TIMESTAMP" />
+            <arg column="inter_orig_sys" javaType="java.lang.String" jdbcType="VARCHAR" />
+            <arg column="inter_i" javaType="java.lang.Integer" jdbcType="INTEGER" />
+            <arg column="inter_v_num" javaType="java.lang.Integer" jdbcType="INTEGER" />
+            <arg column="ver" javaType="java.lang.Integer" jdbcType="INTEGER" />
+            <arg column="status" javaType="java.lang.String" jdbcType="VARCHAR" />
+            <arg column="reject_code" javaType="java.lang.Integer" jdbcType="INTEGER" />
+            <arg column="reject_reason" javaType="java.lang.String" jdbcType="VARCHAR" />
+        </constructor>
+    </resultMap>
+    <sql id="SalerDeal_Column_List" >
+        id, txn_i, product_id, volume, price, notional_principal, trade_orig_sys, trade_sender,
+        trade_reciver, timestamp, inter_orig_sys, inter_i, inter_v_num, ver, status, reject_code,
+        reject_reason
+    </sql>
+
+    <select id="doFindAll" resultMap="SalerDealResultMap">
+        select
+        <include refid="SalerDeal_Column_List" />
+        from sale_deals
+    </select>
+
+    <insert id="doAddSalerDeal" parameterType="com.citi_team_one.tps.model.SalerDeal" >
+        insert into sale_deals
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                id,
+            </if>
+            <if test="txnI != null">
+                txn_i,
+            </if>
+            <if test="productId != null">
+                product_id,
+            </if>
+            <if test="volume != null">
+                volume,
+            </if>
+            <if test="price != null">
+                price,
+            </if>
+            <if test="notionalPrincipal != null">
+                notional_principal,
+            </if>
+            <if test="tradeOrigSys != null">
+                trade_orig_sys,
+            </if>
+            <if test="tradeSender != null">
+                trade_sender,
+            </if>
+            <if test="tradeReciver != null">
+                trade_reciver,
+            </if>
+            <if test="timestamp != null">
+                timestamp,
+            </if>
+            <if test="interOrigSys != null">
+                inter_orig_sys,
+            </if>
+            <if test="interI != null">
+                inter_i,
+            </if>
+            <if test="interVNum != null">
+                inter_v_num,
+            </if>
+            <if test="ver != null">
+                ver,
+            </if>
+            <if test="status != null">
+                status,
+            </if>
+            <if test="rejectCode != null">
+                reject_code,
+            </if>
+            <if test="rejectReason != null">
+                reject_reason,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id,jdbcType=INTEGER},
+            </if>
+            <if test="txnI != null">
+                #{txnI,jdbcType=INTEGER},
+            </if>
+            <if test="productId != null">
+                #{productId,jdbcType=VARCHAR},
+            </if>
+            <if test="volume != null">
+                #{volume,jdbcType=INTEGER},
+            </if>
+            <if test="price != null">
+                #{price,jdbcType=DOUBLE},
+            </if>
+            <if test="notionalPrincipal != null">
+                #{notionalPrincipal,jdbcType=DOUBLE},
+            </if>
+            <if test="tradeOrigSys != null">
+                #{tradeOrigSys,jdbcType=VARCHAR},
+            </if>
+            <if test="tradeSender != null">
+                #{tradeSender,jdbcType=INTEGER},
+            </if>
+            <if test="tradeReciver != null">
+                #{tradeReciver,jdbcType=INTEGER},
+            </if>
+            <if test="timestamp != null">
+                #{timestamp,jdbcType=TIMESTAMP},
+            </if>
+            <if test="interOrigSys != null">
+                #{interOrigSys,jdbcType=VARCHAR},
+            </if>
+            <if test="interI != null">
+                #{interI,jdbcType=INTEGER},
+            </if>
+            <if test="interVNum != null">
+                #{interVNum,jdbcType=INTEGER},
+            </if>
+            <if test="ver != null">
+                #{ver,jdbcType=INTEGER},
+            </if>
+            <if test="status != null">
+                #{status,jdbcType=VARCHAR},
+            </if>
+            <if test="rejectCode != null">
+                #{rejectCode,jdbcType=INTEGER},
+            </if>
+            <if test="rejectReason != null">
+                #{rejectReason,jdbcType=VARCHAR},
+            </if>
+        </trim>
+    </insert>
+
+    <update id="doUpdateSalerDeal" parameterType="com.citi_team_one.tps.model.SalerDeal" >
+        update sale_deals
+        <set>
+            <if test="txnI != null">
+                txn_i = #{txnI,jdbcType=INTEGER},
+            </if>
+            <if test="productId != null">
+                product_id = #{productId,jdbcType=VARCHAR},
+            </if>
+            <if test="volume != null">
+                volume = #{volume,jdbcType=INTEGER},
+            </if>
+            <if test="price != null">
+                price = #{price,jdbcType=DOUBLE},
+            </if>
+            <if test="notionalPrincipal != null">
+                notional_principal = #{notionalPrincipal,jdbcType=DOUBLE},
+            </if>
+            <if test="tradeOrigSys != null">
+                trade_orig_sys = #{tradeOrigSys,jdbcType=VARCHAR},
+            </if>
+            <if test="tradeSender != null">
+                trade_sender = #{tradeSender,jdbcType=INTEGER},
+            </if>
+            <if test="tradeReciver != null">
+                trade_reciver = #{tradeReciver,jdbcType=INTEGER},
+            </if>
+            <if test="timestamp != null">
+                timestamp = #{timestamp,jdbcType=TIMESTAMP},
+            </if>
+            <if test="interOrigSys != null">
+                inter_orig_sys = #{interOrigSys,jdbcType=VARCHAR},
+            </if>
+            <if test="interI != null">
+                inter_i = #{interI,jdbcType=INTEGER},
+            </if>
+            <if test="interVNum != null">
+                inter_v_num = #{interVNum,jdbcType=INTEGER},
+            </if>
+            <if test="ver != null">
+                ver = #{ver,jdbcType=INTEGER},
+            </if>
+            <if test="status != null">
+                status = #{status,jdbcType=VARCHAR},
+            </if>
+            <if test="rejectCode != null">
+                reject_code = #{rejectCode,jdbcType=INTEGER},
+            </if>
+            <if test="rejectReason != null">
+                reject_reason = #{rejectReason,jdbcType=VARCHAR},
+            </if>
+        </set>
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+
+
+    <select id="selectByPrimaryKey" resultMap="SalerDealResultMap" parameterType="java.lang.Integer" >
+        select
+        <include refid="SalerDeal_Column_List" />
+        from sale_deals
+        where id = #{id,jdbcType=INTEGER}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+        delete from sale_deals
+        where id = #{id,jdbcType=INTEGER}
+    </delete>
+    <insert id="insert" parameterType="com.citi_team_one.tps.model.SalerDeal" >
+        insert into sale_deals (id, txnl, product_id,
+        volume, price, notional_principal,
+        trade_orig_sys, trade_dest_sys, timestamp,
+        inter_orig_sys, inter_i, inter_v_num,
+        ver, status, reject_code,
+        reject_reason)
+        values (#{id,jdbcType=INTEGER}, #{txnl,jdbcType=INTEGER}, #{productId,jdbcType=VARCHAR},
+        #{volume,jdbcType=INTEGER}, #{price,jdbcType=DOUBLE}, #{notionalPrincipal,jdbcType=DOUBLE},
+        #{tradeOrigSys,jdbcType=VARCHAR}, #{tradeDestSys,jdbcType=INTEGER}, #{timestamp,jdbcType=TIMESTAMP},
+        #{interOrigSys,jdbcType=VARCHAR}, #{interI,jdbcType=INTEGER}, #{interVNum,jdbcType=INTEGER},
+        #{ver,jdbcType=INTEGER}, #{status,jdbcType=VARCHAR}, #{rejectCode,jdbcType=INTEGER},
+        #{rejectReason,jdbcType=VARCHAR})
+    </insert>
+    <insert id="insertSelective" parameterType="com.citi_team_one.tps.model.SalerDeal" >
+        insert into sale_deals
+        <trim prefix="(" suffix=")" suffixOverrides="," >
+            <if test="id != null" >
+                id,
+            </if>
+            <if test="txnl != null" >
+                txnl,
+            </if>
+            <if test="productId != null" >
+                product_id,
+            </if>
+            <if test="volume != null" >
+                volume,
+            </if>
+            <if test="price != null" >
+                price,
+            </if>
+            <if test="notionalPrincipal != null" >
+                notional_principal,
+            </if>
+            <if test="tradeOrigSys != null" >
+                trade_orig_sys,
+            </if>
+            <if test="tradeDestSys != null" >
+                trade_dest_sys,
+            </if>
+            <if test="timestamp != null" >
+                timestamp,
+            </if>
+            <if test="interOrigSys != null" >
+                inter_orig_sys,
+            </if>
+            <if test="interI != null" >
+                inter_i,
+            </if>
+            <if test="interVNum != null" >
+                inter_v_num,
+            </if>
+            <if test="ver != null" >
+                ver,
+            </if>
+            <if test="status != null" >
+                status,
+            </if>
+            <if test="rejectCode != null" >
+                reject_code,
+            </if>
+            <if test="rejectReason != null" >
+                reject_reason,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides="," >
+            <if test="id != null" >
+                #{id,jdbcType=INTEGER},
+            </if>
+            <if test="txnl != null" >
+                #{txnl,jdbcType=INTEGER},
+            </if>
+            <if test="productId != null" >
+                #{productId,jdbcType=VARCHAR},
+            </if>
+            <if test="volume != null" >
+                #{volume,jdbcType=INTEGER},
+            </if>
+            <if test="price != null" >
+                #{price,jdbcType=DOUBLE},
+            </if>
+            <if test="notionalPrincipal != null" >
+                #{notionalPrincipal,jdbcType=DOUBLE},
+            </if>
+            <if test="tradeOrigSys != null" >
+                #{tradeOrigSys,jdbcType=VARCHAR},
+            </if>
+            <if test="tradeDestSys != null" >
+                #{tradeDestSys,jdbcType=INTEGER},
+            </if>
+            <if test="timestamp != null" >
+                #{timestamp,jdbcType=TIMESTAMP},
+            </if>
+            <if test="interOrigSys != null" >
+                #{interOrigSys,jdbcType=VARCHAR},
+            </if>
+            <if test="interI != null" >
+                #{interI,jdbcType=INTEGER},
+            </if>
+            <if test="interVNum != null" >
+                #{interVNum,jdbcType=INTEGER},
+            </if>
+            <if test="ver != null" >
+                #{ver,jdbcType=INTEGER},
+            </if>
+            <if test="status != null" >
+                #{status,jdbcType=VARCHAR},
+            </if>
+            <if test="rejectCode != null" >
+                #{rejectCode,jdbcType=INTEGER},
+            </if>
+            <if test="rejectReason != null" >
+                #{rejectReason,jdbcType=VARCHAR},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.citi_team_one.tps.model.SalerDeal" >
+        update sale_deals
+        <set >
+            <if test="txnl != null" >
+                txnl = #{txnl,jdbcType=INTEGER},
+            </if>
+            <if test="productId != null" >
+                product_id = #{productId,jdbcType=VARCHAR},
+            </if>
+            <if test="volume != null" >
+                volume = #{volume,jdbcType=INTEGER},
+            </if>
+            <if test="price != null" >
+                price = #{price,jdbcType=DOUBLE},
+            </if>
+            <if test="notionalPrincipal != null" >
+                notional_principal = #{notionalPrincipal,jdbcType=DOUBLE},
+            </if>
+            <if test="tradeOrigSys != null" >
+                trade_orig_sys = #{tradeOrigSys,jdbcType=VARCHAR},
+            </if>
+            <if test="tradeDestSys != null" >
+                trade_dest_sys = #{tradeDestSys,jdbcType=INTEGER},
+            </if>
+            <if test="timestamp != null" >
+                timestamp = #{timestamp,jdbcType=TIMESTAMP},
+            </if>
+            <if test="interOrigSys != null" >
+                inter_orig_sys = #{interOrigSys,jdbcType=VARCHAR},
+            </if>
+            <if test="interI != null" >
+                inter_i = #{interI,jdbcType=INTEGER},
+            </if>
+            <if test="interVNum != null" >
+                inter_v_num = #{interVNum,jdbcType=INTEGER},
+            </if>
+            <if test="ver != null" >
+                ver = #{ver,jdbcType=INTEGER},
+            </if>
+            <if test="status != null" >
+                status = #{status,jdbcType=VARCHAR},
+            </if>
+            <if test="rejectCode != null" >
+                reject_code = #{rejectCode,jdbcType=INTEGER},
+            </if>
+            <if test="rejectReason != null" >
+                reject_reason = #{rejectReason,jdbcType=VARCHAR},
+            </if>
+        </set>
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.citi_team_one.tps.model.SalerDeal" >
+        update sale_deals
+        set txnl = #{txnl,jdbcType=INTEGER},
+        product_id = #{productId,jdbcType=VARCHAR},
+        volume = #{volume,jdbcType=INTEGER},
+        price = #{price,jdbcType=DOUBLE},
+        notional_principal = #{notionalPrincipal,jdbcType=DOUBLE},
+        trade_orig_sys = #{tradeOrigSys,jdbcType=VARCHAR},
+        trade_dest_sys = #{tradeDestSys,jdbcType=INTEGER},
+        timestamp = #{timestamp,jdbcType=TIMESTAMP},
+        inter_orig_sys = #{interOrigSys,jdbcType=VARCHAR},
+        inter_i = #{interI,jdbcType=INTEGER},
+        inter_v_num = #{interVNum,jdbcType=INTEGER},
+        ver = #{ver,jdbcType=INTEGER},
+        status = #{status,jdbcType=VARCHAR},
+        reject_code = #{rejectCode,jdbcType=INTEGER},
+        reject_reason = #{rejectReason,jdbcType=VARCHAR}
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+</mapper>

@@ -9,29 +9,31 @@ import java.io.Serializable;
 @Getter
 @Setter
 public class User implements Serializable {
-    private String id;
+
+    private Integer id;
     private String name;
-    private String email;
     private String pwd;
+    private Integer roleId;
+    
+
+    public User(Integer id, String name, String pwd, Integer roleId) {
+        this.id = id;
+        this.name = name;
+        this.pwd = pwd;
+        this.roleId = roleId;
+    }
 
     public User() {
         super();
     }
 
-    public User(String id, String name, String email, String pwd) {
-        this.id = id;
-        this.name = name;
-        this.email = email;
-        this.pwd = pwd;
-    }
-
     @Override
     public String toString() {
         return "User{" +
-                "id='" + id + '\'' +
+                "id=" + id +
                 ", name='" + name + '\'' +
-                ", email='" + email + '\'' +
                 ", pwd='" + pwd + '\'' +
+                ", roleId=" + roleId +
                 '}';
     }
 }

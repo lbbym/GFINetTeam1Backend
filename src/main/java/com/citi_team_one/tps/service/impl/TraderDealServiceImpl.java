@@ -6,6 +6,7 @@ import com.citi_team_one.tps.model.TraderDeal;
 import com.citi_team_one.tps.service.SalerDealsService;
 import com.citi_team_one.tps.service.TraderDealsService;
 import com.citi_team_one.tps.utils.DealMatcher;
+import com.github.pagehelper.PageHelper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -23,7 +24,9 @@ public class TraderDealServiceImpl implements TraderDealsService {
     public List<TraderDeal> findAllInPages(Integer pageNum, Integer perPage) {
         //TODO
         // log trade+leg
-        return traderDealMapper.doFindAllInPages(pageNum, perPage);
+//        return traderDealMapper.doFindAllInPages(pageNum, perPage);
+        PageHelper.startPage(pageNum,perPage);
+        return traderDealMapper.doFindAll();
     }
 
     @Override
