@@ -8,4 +8,5 @@ public interface UserMapper {
     List<User> doFindAll();
     User doFindByName(String name);
     User doFindById(String id);
+    User doAddUser(User user);
 }

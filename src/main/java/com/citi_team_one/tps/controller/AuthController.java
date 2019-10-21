@@ -12,43 +12,45 @@ import org.apache.shiro.authz.annotation.RequiresAuthentication;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import org.apache.log4j.Logger;
+
 import java.util.ArrayList;
 import java.util.List;
 
 @RestController
-public class TestController {
+@RequestMapping("/api")
+public class AuthController {
 
     @Autowired
     private UserService userService;
+    private static Logger logger = Logger.getLogger(AuthController.class);
 
-    @RequestMapping("/todos")
-    public List<Integer> getAllTodos() {
-        List<Integer> tmp = new ArrayList<>();
-        tmp.add(1);
-        tmp.add(2432);
-        return tmp;
-    }
-
-    @RequestMapping("/users")
-    @RequiresAuthentication
-    public List<User> getAllUsers() {
-        List<User> users = userService.findAll();
-        return users;
-    }
-
-    @GetMapping("/login")
-    public ResponseBean login(@RequestParam("username") String username,
-                              @RequestParam("password") String password) {
-        System.out.println(username + " " + password);
+    @PostMapping("/login")
+    public ResponseBean login(@RequestParam("name") String username,
+                              @RequestParam("pwd") String password) {
+        logger.info(" login: " + username + " " + password);
         User user = userService.findByName(username);
         if (user.getPwd().equals(password)) {
             JSONObject json_result = new JSONObject(true);
             json_result.put("token", JWTUtil.sign(username, password));
-            json_result.put("uid",user.getId());
-            System.out.println(json_result);
+            json_result.put("userId", user.getId());
+            logger.info(" login successful: " + json_result);
             return new ResponseBean(200, "Login successful.", json_result);
         } else {
+            logger.error(" login failed: " + username + " " + password);
             throw new UnauthorizedException();
+        }
+    }
+
+    @PostMapping("/register")
+    public ResponseBean register(User user) {
+        logger.info(" register: " + user.getName());
+        if (userService.findByName(user.getName()) != null) {
+            return new ResponseBean(400, "Already has a name like this!", null);
+        }
+        else {
+            userService.addUser(user);
+            return new ResponseBean(200, "Register successful.", null);
         }
     }
 }

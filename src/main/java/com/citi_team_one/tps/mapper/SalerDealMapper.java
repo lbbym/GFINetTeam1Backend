@@ -6,7 +6,7 @@ import com.citi_team_one.tps.model.TraderDeal;
 import java.util.List;
 
 public interface SalerDealMapper {
-    List<SalerDeal> doFindAllInPages(Integer pageNum, Integer perPage);
+    List<SalerDeal> doFindAllInPages();
     SalerDeal doAddSalerDeal(SalerDeal newDeal);
     SalerDeal doUpdateSalerDeal(SalerDeal newDeal);
 }

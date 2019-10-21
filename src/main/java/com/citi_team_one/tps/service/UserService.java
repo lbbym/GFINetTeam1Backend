@@ -9,7 +9,5 @@ public interface UserService  {
     public List<User> findAll();
     public User findByName(String name);
     public User findById(String id);
-
-//    public User addUser();
-
+    public User addUser(User user);
 }

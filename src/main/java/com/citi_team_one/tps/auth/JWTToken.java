@@ -3,8 +3,6 @@ package com.citi_team_one.tps.auth;
 import org.apache.shiro.authc.AuthenticationToken;
 
 public class JWTToken implements AuthenticationToken {
-
-    // 密钥
     private String token;
 
     public JWTToken(String token) {
