@@ -19,6 +19,7 @@ repositories {
 }
 
 dependencies {
+    compile 'com.github.pagehelper:pagehelper:4.1.0'
     compile 'log4j:log4j:1.2.17'
     compile 'com.alibaba:fastjson:1.2.47'
     compile 'org.apache.shiro:shiro-spring:1.4.0'
