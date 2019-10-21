@@ -4,4 +4,7 @@ import java.io.Serializable;
 
 public class SalerDeal implements Serializable {
     //TODO
+    public void setStatus(StatusCode code) {
+        return;
+    }
 }

@@ -21,6 +21,8 @@ public class TraderDealServiceImpl implements TraderDealsService {
 
     @Override
     public List<TraderDeal> findAllInPages(Integer pageNum, Integer perPage) {
+        //TODO
+        // log trade+leg
         return traderDealMapper.doFindAllInPages(pageNum, perPage);
     }
 
