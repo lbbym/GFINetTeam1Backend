@@ -26,7 +26,8 @@ public class TestController {
     }
 
     @RequestMapping("/users")
-    public List<User> getAllUsers() {
+    public List<User> getAllUsers(User) {
+
         List<User> users = userService.findAll();
         return users;
     }
