@@ -8,7 +8,7 @@ import java.util.List;
 public interface UserService  {
     public List<User> findAll();
     public User findByName(String name);
-    public User findById(Integer id);
+    public User findById(String id);
 
 //    public User addUser();
 

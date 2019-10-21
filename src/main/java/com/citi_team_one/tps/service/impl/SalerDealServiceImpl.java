@@ -32,7 +32,7 @@ public class SalerDealServiceImpl implements SalerDealsService {
     }
 
     private SalerDeal checkMatch(SalerDeal newDeal) {
-        if(new DealMatcher().isMatch(newDeal))
+        if(DealMatcher.getInstance().isMatch(newDeal))
         {
             newDeal.setStatus(StatusCode.TPS_PROCESSED);
         }
