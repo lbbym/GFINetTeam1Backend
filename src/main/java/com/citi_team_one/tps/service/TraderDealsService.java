@@ -1,5 +1,7 @@
 package com.citi_team_one.tps.service;
 
+import com.citi_team_one.tps.model.TraderDeal;
+
 import java.util.List;
 
 public interface TraderDealsService {
