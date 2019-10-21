@@ -11,11 +11,21 @@ import java.util.List;
 @Service
 public class UserServiceImpl implements UserService {
     @Autowired
-    private UserMapper mapper;
+    private UserMapper userMapper;
 
 
     @Override
     public List<User> findAll() {
-        return mapper.getAll();
+        return userMapper.doFindAll();
+    }
+
+    @Override
+    public User findByName(String name) {
+       return userMapper.doFindByName(name);
+    }
+
+    @Override
+    public User findById(Integer id) {
+        return userMapper.doFindById(id);
     }
 }
