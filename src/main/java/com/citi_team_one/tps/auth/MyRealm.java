@@ -19,10 +19,6 @@ import org.apache.shiro.subject.PrincipalCollection;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.Set;
-
 @Service
 public class MyRealm extends AuthorizingRealm {
     @Autowired
@@ -51,7 +47,7 @@ public class MyRealm extends AuthorizingRealm {
         User user = userService.findByName(username);
         SimpleAuthorizationInfo simpleAuthorizationInfo = new SimpleAuthorizationInfo();
 
-        simpleAuthorizationInfo.addRole(user.getId().substring(0,1));
+//        simpleAuthorizationInfo.addRole(user.getId().substring(0,1));
 //        Permission raw_permission = permissionJpaRepository.findByRole(user.getRole());
 //        Set<String> permission = new HashSet<>(Arrays.asList(raw_permission.getPermission().split(",")));
 //        simpleAuthorizationInfo.addStringPermissions(permission);
