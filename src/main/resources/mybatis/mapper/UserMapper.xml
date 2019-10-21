@@ -5,13 +5,21 @@
         <id column="id" property="id" jdbcType="VARCHAR" />
         <result column="name" property="name" jdbcType="VARCHAR" />
         <result column="email" property="email" jdbcType="VARCHAR" />
+        <result column="pwd" property="pwd" jdbcType="VARCHAR" />
+
     </resultMap>
     
     <sql id="Base_Column_List" >
-        id, name, email
+        id, name, email, pwd
     </sql>
 
-    <select id="getAll" resultMap="BaseResultMap"  >
+    <select id="doFindByName"  parameterType="java.lang.String"  resultMap="BaseResultMap"  >
+        SELECT
+        <include refid="Base_Column_List" />
+        FROM users WHERE name =  #{name}
+    </select>
+
+    <select id="doFindAll" resultMap="BaseResultMap"  >
        SELECT 
        <include refid="Base_Column_List" />
 	   FROM users

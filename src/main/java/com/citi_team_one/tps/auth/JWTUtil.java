@@ -10,14 +10,9 @@ import java.util.Date;
 
 
 public class JWTUtil {
-    private static long expire_time_minute;
+    private static long expire_time_minute=20;
     // 过期时间5分钟
-    private static long EXPIRE_TIME;
-
-    public static void setConfigInfo(ReadConfig config) {
-        JWTUtil.expire_time_minute = config.getExpire_time_minute();
-        JWTUtil.EXPIRE_TIME = JWTUtil.expire_time_minute*60*1000;
-    }
+    private static long EXPIRE_TIME=20*60*1000;
 
 
     /**

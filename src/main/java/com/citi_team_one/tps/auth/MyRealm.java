@@ -5,6 +5,7 @@ package com.citi_team_one.tps.auth;
 //import com.example.ipms.model.User;
 //import com.example.ipms.model.UserJpaRepository;
 import com.citi_team_one.tps.model.User;
+import com.citi_team_one.tps.service.UserService;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 import org.apache.shiro.authc.AuthenticationException;
@@ -24,7 +25,8 @@ import java.util.Set;
 
 @Service
 public class MyRealm extends AuthorizingRealm {
-
+    @Autowired
+    private UserService userService;
     private static final Logger LOGGER = LogManager.getLogger(MyRealm.class);
 //
 //    @Autowired
@@ -46,9 +48,10 @@ public class MyRealm extends AuthorizingRealm {
     @Override
     protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection principals) {
         String username = JWTUtil.getUsername(principals.toString());
-//        User user = userJpaRepository.findByUsername(username);
+        User user = userService.findByName(username);
         SimpleAuthorizationInfo simpleAuthorizationInfo = new SimpleAuthorizationInfo();
-//        simpleAuthorizationInfo.addRole(user.getRole());
+
+        simpleAuthorizationInfo.addRole(user.getId().substring(0,1));
 //        Permission raw_permission = permissionJpaRepository.findByRole(user.getRole());
 //        Set<String> permission = new HashSet<>(Arrays.asList(raw_permission.getPermission().split(",")));
 //        simpleAuthorizationInfo.addStringPermissions(permission);
@@ -67,15 +70,15 @@ public class MyRealm extends AuthorizingRealm {
             throw new AuthenticationException("token invalid");
         }
 
-        User userBean = userJpaRepository.findByUsername(username);
+        User userBean = userService.findByName(username);
         if (userBean == null) {
             throw new AuthenticationException("User didn't existed!");
         }
 
-        if (! JWTUtil.verify(token, username, userBean.getPassword())) {
+        if (! JWTUtil.verify(token, username, userBean.getPwd())) {
             System.out.println(token);
             System.out.println(username);
-            System.out.println(userBean.getPassword());
+            System.out.println(userBean.getPwd());
             throw new AuthenticationException("Username or password error");
         }
 

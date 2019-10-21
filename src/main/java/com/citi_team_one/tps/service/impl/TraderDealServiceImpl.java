@@ -37,7 +37,7 @@ public class TraderDealServiceImpl implements TraderDealsService {
     }
 
     private TraderDeal checkMatch(TraderDeal newDeal) {
-        if(new DealMatcher().isMatch(newDeal))
+        if(DealMatcher.getInstance().isMatch(newDeal))
         {
             newDeal.setStatus(StatusCode.TPS_PROCESSED);
         }
