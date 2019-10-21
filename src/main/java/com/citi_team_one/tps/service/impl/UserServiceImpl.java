@@ -31,6 +31,8 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User addUser(User user){
-        return userMapper.doAddUser(user);
+        user.setId(null);
+        user.setId(userMapper.doAddUser(user));
+        return user;
     }
 }

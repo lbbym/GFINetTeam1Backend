@@ -18,17 +18,20 @@ public class SalerDealServiceImpl implements SalerDealsService {
 
     @Override
     public List<SalerDeal> findAllInPages(Integer pageNum, Integer perPage) {
-        PageHelper.startPage(pageNum,perPage);
+        PageHelper.startPage(pageNum, perPage);
         return salerDealMapper.doFindAll();
     }
 
     @Override
     public SalerDeal addSalerDeal(SalerDeal newDeal) {
-        return salerDealMapper.doAddSalerDeal(newDeal);
+        newDeal.setId(null);
+        newDeal.setId(salerDealMapper.doAddSalerDeal(newDeal));
+        return newDeal;
     }
 
     @Override
     public SalerDeal updateSalerDeal(SalerDeal updatedDeal) {
-        return salerDealMapper.doUpdateSalerDeal(updatedDeal);
+        salerDealMapper.doUpdateSalerDeal(updatedDeal);
+        return updatedDeal;
     }
 }

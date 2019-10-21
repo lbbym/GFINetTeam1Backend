@@ -33,7 +33,15 @@
         where id = #{id,jdbcType=INTEGER}
     </select>
 
-
+    <insert id="doAddUser" parameterType="com.citi_team_one.tps.model.User" >
+        insert into user (id, name, pwd,
+        role_id)
+        values (#{id,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, #{pwd,jdbcType=VARCHAR},
+        #{roleId,jdbcType=INTEGER})
+        <selectKey resultType="Integer" keyProperty="id" >
+            SELECT @@IDENTITY AS ID
+        </selectKey>
+    </insert>
 
     <select id="selectByPrimaryKey" resultMap="UserResultMap" parameterType="java.lang.Integer" >
         select

@@ -6,6 +6,6 @@ import java.util.List;
 
 public interface TraderDealMapper {
     List<TraderDeal> doFindAll();
-    TraderDeal doAddTraderDeal(TraderDeal newDeal);
-    TraderDeal doUpdateTraderDeal(TraderDeal newDeal);
+    Integer doAddTraderDeal(TraderDeal newDeal);
+    Integer doUpdateTraderDeal(TraderDeal newDeal);
 }
