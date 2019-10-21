@@ -1,5 +1,7 @@
-package com.citi_team_one.tps.auth;
+package com.citi_team_one.tps.config;
 
+import com.citi_team_one.tps.auth.JWTFilter;
+import com.citi_team_one.tps.auth.MyRealm;
 import org.apache.shiro.mgt.DefaultSessionStorageEvaluator;
 import org.apache.shiro.mgt.DefaultSubjectDAO;
 import org.apache.shiro.spring.LifecycleBeanPostProcessor;

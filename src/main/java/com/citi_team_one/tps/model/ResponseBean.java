@@ -4,13 +4,10 @@ import com.alibaba.fastjson.JSONObject;
 
 public class ResponseBean {
 
-    // http 状态码
     private int code;
 
-    // 返回信息
     private String msg;
 
-    // 返回的数据
     private JSONObject result;
 
     public ResponseBean(int code, String msg, JSONObject result) {

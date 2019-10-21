@@ -25,7 +25,12 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public User findById(String id) {
+    public User findById(Integer id) {
         return userMapper.doFindById(id);
+    }
+
+    @Override
+    public User addUser(User user){
+        return userMapper.doAddUser(user);
     }
 }

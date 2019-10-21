@@ -22,30 +22,17 @@ public class TraderDealServiceImpl implements TraderDealsService {
 
     @Override
     public List<TraderDeal> findAllInPages(Integer pageNum, Integer perPage) {
-        //TODO
-        // log trade+leg
-//        return traderDealMapper.doFindAllInPages(pageNum, perPage);
         PageHelper.startPage(pageNum,perPage);
         return traderDealMapper.doFindAll();
     }
 
     @Override
     public TraderDeal addTraderDeal(TraderDeal newDeal) {
-        return traderDealMapper.doAddTraderDeal(checkMatch(newDeal));
+        return traderDealMapper.doAddTraderDeal(newDeal);
     }
 
     @Override
     public TraderDeal updateTraderDeal(TraderDeal updatedDeal){
-        return traderDealMapper.doUpdateTraderDeal(checkMatch(updatedDeal));
-    }
-
-    private TraderDeal checkMatch(TraderDeal newDeal) {
-        if(DealMatcher.getInstance().isMatch(newDeal))
-        {
-            newDeal.setStatus(StatusCode.TPS_PROCESSED);
-        }
-        else
-            newDeal.setStatus(StatusCode.PENDING);
-        return newDeal;
+        return traderDealMapper.doUpdateTraderDeal(updatedDeal);
     }
 }
