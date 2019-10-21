@@ -19,7 +19,7 @@ public class SalerDealServiceImpl implements SalerDealsService {
     @Override
     public List<SalerDeal> findAllInPages(Integer pageNum, Integer perPage) {
         PageHelper.startPage(pageNum,perPage);
-        return salerDealMapper.doFindAllInPages();
+        return salerDealMapper.doFindAll();
     }
 
     @Override

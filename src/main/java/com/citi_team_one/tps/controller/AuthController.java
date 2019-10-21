@@ -4,11 +4,13 @@ package com.citi_team_one.tps.controller;
 import com.alibaba.fastjson.JSONObject;
 import com.citi_team_one.tps.auth.JWTUtil;
 import com.citi_team_one.tps.exception.UnauthorizedException;
-import com.citi_team_one.tps.mapper.UserMapper;
 import com.citi_team_one.tps.model.ResponseBean;
+import com.citi_team_one.tps.model.SalerDeal;
+import com.citi_team_one.tps.model.TraderDeal;
 import com.citi_team_one.tps.model.User;
+import com.citi_team_one.tps.service.SalerDealsService;
+import com.citi_team_one.tps.service.TraderDealsService;
 import com.citi_team_one.tps.service.UserService;
-import org.apache.shiro.authz.annotation.RequiresAuthentication;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -47,8 +49,7 @@ public class AuthController {
         logger.info(" register: " + user.getName());
         if (userService.findByName(user.getName()) != null) {
             return new ResponseBean(400, "Already has a name like this!", null);
-        }
-        else {
+        } else {
             userService.addUser(user);
             return new ResponseBean(200, "Register successful.", null);
         }

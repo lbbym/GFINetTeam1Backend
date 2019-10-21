@@ -1,20 +1,16 @@
 package com.citi_team_one.tps.controller;
 
 
-import com.alibaba.fastjson.JSONObject;
-import com.citi_team_one.tps.auth.JWTUtil;
-import com.citi_team_one.tps.exception.UnauthorizedException;
-import com.citi_team_one.tps.model.*;
+import com.citi_team_one.tps.model.SalerDeal;
+import com.citi_team_one.tps.model.StatusCode;
+import com.citi_team_one.tps.model.TraderDeal;
 import com.citi_team_one.tps.service.SalerDealsService;
 import com.citi_team_one.tps.service.TraderDealsService;
-import com.citi_team_one.tps.service.UserService;
 import com.citi_team_one.tps.utils.DealMatcher;
-import org.apache.shiro.authz.annotation.RequiresAuthentication;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.*;
-
-import java.util.ArrayList;
-import java.util.List;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/api")

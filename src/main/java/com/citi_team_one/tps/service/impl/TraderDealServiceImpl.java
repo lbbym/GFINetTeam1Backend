@@ -23,7 +23,7 @@ public class TraderDealServiceImpl implements TraderDealsService {
     @Override
     public List<TraderDeal> findAllInPages(Integer pageNum, Integer perPage) {
         PageHelper.startPage(pageNum,perPage);
-        return traderDealMapper.doFindAllInPages();
+        return traderDealMapper.doFindAll();
     }
 
     @Override

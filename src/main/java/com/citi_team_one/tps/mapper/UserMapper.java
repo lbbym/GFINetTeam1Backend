@@ -7,6 +7,6 @@ import java.util.List;
 public interface UserMapper {
     List<User> doFindAll();
     User doFindByName(String name);
-    User doFindById(String id);
+    User doFindById(Integer id);
     User doAddUser(User user);
 }

@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.citi_team_one.tps.mapper.ProductMapper" >
+  <resultMap id="ProductResultMap" type="com.citi_team_one.tps.model.Product" >
+    <constructor >
+      <idArg column="id" jdbcType="INTEGER" javaType="java.lang.Integer" />
+      <arg column="cusip" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="face_value" jdbcType="DOUBLE" javaType="java.lang.Double" />
+      <arg column="coupon" jdbcType="DOUBLE" javaType="java.lang.Double" />
+      <arg column="maturity_date" jdbcType="TIMESTAMP" javaType="java.util.Date" />
+    </constructor>
+  </resultMap>
+  <sql id="Product_Column_List" >
+    id, cusip, face_value, coupon, maturity_date
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="ProductResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Product_Column_List" />
+    from product
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from product
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.citi_team_one.tps.model.Product" >
+    insert into product (id, cusip, face_value, 
+      coupon, maturity_date)
+    values (#{id,jdbcType=INTEGER}, #{cusip,jdbcType=VARCHAR}, #{faceValue,jdbcType=DOUBLE}, 
+      #{coupon,jdbcType=DOUBLE}, #{maturityDate,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.citi_team_one.tps.model.Product" >
+    insert into product
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="cusip != null" >
+        cusip,
+      </if>
+      <if test="faceValue != null" >
+        face_value,
+      </if>
+      <if test="coupon != null" >
+        coupon,
+      </if>
+      <if test="maturityDate != null" >
+        maturity_date,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="cusip != null" >
+        #{cusip,jdbcType=VARCHAR},
+      </if>
+      <if test="faceValue != null" >
+        #{faceValue,jdbcType=DOUBLE},
+      </if>
+      <if test="coupon != null" >
+        #{coupon,jdbcType=DOUBLE},
+      </if>
+      <if test="maturityDate != null" >
+        #{maturityDate,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.citi_team_one.tps.model.Product" >
+    update product
+    <set >
+      <if test="cusip != null" >
+        cusip = #{cusip,jdbcType=VARCHAR},
+      </if>
+      <if test="faceValue != null" >
+        face_value = #{faceValue,jdbcType=DOUBLE},
+      </if>
+      <if test="coupon != null" >
+        coupon = #{coupon,jdbcType=DOUBLE},
+      </if>
+      <if test="maturityDate != null" >
+        maturity_date = #{maturityDate,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.citi_team_one.tps.model.Product" >
+    update product
+    set cusip = #{cusip,jdbcType=VARCHAR},
+      face_value = #{faceValue,jdbcType=DOUBLE},
+      coupon = #{coupon,jdbcType=DOUBLE},
+      maturity_date = #{maturityDate,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

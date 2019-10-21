@@ -1,6 +1,7 @@
 package com.citi_team_one.tps.auth;
 
 import com.citi_team_one.tps.model.User;
+import com.citi_team_one.tps.service.RoleService;
 import com.citi_team_one.tps.service.UserService;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
@@ -15,11 +16,12 @@ import org.apache.shiro.subject.PrincipalCollection;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-
 @Service
 public class MyRealm extends AuthorizingRealm {
     @Autowired
     private UserService userService;
+    @Autowired
+    private RoleService roleService;
     private static final Logger LOGGER = LogManager.getLogger(MyRealm.class);
 
     @Override
@@ -34,7 +36,7 @@ public class MyRealm extends AuthorizingRealm {
         User user = userService.findByName(username);
         SimpleAuthorizationInfo simpleAuthorizationInfo = new SimpleAuthorizationInfo();
 
-        simpleAuthorizationInfo.addRole(user.getId().substring(0,1));
+        simpleAuthorizationInfo.addRole(roleService.findById(user.getRoleId()).getRole());
         return simpleAuthorizationInfo;
     }
 
@@ -51,7 +53,7 @@ public class MyRealm extends AuthorizingRealm {
             throw new AuthenticationException("User didn't existed!");
         }
 
-        if (! JWTUtil.verify(token, username, userBean.getPwd())) {
+        if (!JWTUtil.verify(token, username, userBean.getPwd())) {
             System.out.println(token);
             System.out.println(username);
             System.out.println(userBean.getPwd());
