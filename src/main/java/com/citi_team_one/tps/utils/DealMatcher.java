@@ -6,14 +6,18 @@ import com.citi_team_one.tps.model.TraderDeal;
 import com.citi_team_one.tps.service.SalerDealsService;
 import com.citi_team_one.tps.service.TraderDealsService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+
+import javax.annotation.PostConstruct;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingDeque;
 
+@Component
 public class DealMatcher {
     @Autowired
-    private  SalerDealsService salerDealsService;
+    private SalerDealsService salerDealsService;
     @Autowired
-    private  TraderDealsService traderDealsService;
+    private TraderDealsService traderDealsService;
 
     BlockingQueue<TraderDeal> traderDealList = new LinkedBlockingDeque<>();
     BlockingQueue<SalerDeal> salerDealList = new LinkedBlockingDeque<>();
@@ -21,6 +25,12 @@ public class DealMatcher {
     private static DealMatcher singletonDealMatcher = new DealMatcher();
 
     private DealMatcher() {
+    }
+
+    @PostConstruct
+    public void init() {
+        singletonDealMatcher.salerDealsService = this.salerDealsService;
+        singletonDealMatcher.traderDealsService = this.traderDealsService;
     }
 
     public static DealMatcher getInstance() {

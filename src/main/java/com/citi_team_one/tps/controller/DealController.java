@@ -11,10 +11,12 @@ import com.citi_team_one.tps.service.SalerDealsService;
 import com.citi_team_one.tps.service.TraderDealsService;
 import com.citi_team_one.tps.utils.DealMatcher;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.beans.propertyeditors.CustomDateEditor;
+import org.springframework.web.bind.WebDataBinder;
+import org.springframework.web.bind.annotation.*;
+
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 @RestController
 @RequestMapping("/api")
@@ -28,7 +30,7 @@ public class DealController {
 
     @RequestMapping(value = "/traderDeal", method = RequestMethod.GET)
     public ResponseBean getTraderDeals(@RequestParam("pageNum") Integer pageNum,
-                                      @RequestParam("perPage") Integer perPage) {
+                                       @RequestParam("perPage") Integer perPage) {
         JSONObject json_result = new JSONObject(true);
         json_result.put("traderDealList", traderDealsService.findAllInPages(pageNum, perPage));
         return new ResponseBean(200, "success", json_result);
@@ -44,10 +46,10 @@ public class DealController {
         return traderDeal;
     }
 
-//////////////////////////////////////////////////////////////////////////////////////
+    //////////////////////////////////////////////////////////////////////////////////////
     @RequestMapping(value = "/salerDeal", method = RequestMethod.GET)
     public ResponseBean getSalerDeals(@RequestParam("pageNum") Integer pageNum,
-                                       @RequestParam("perPage") Integer perPage) {
+                                      @RequestParam("perPage") Integer perPage) {
         JSONObject json_result = new JSONObject(true);
         json_result.put("traderDealList", salerDealsService.findAllInPages(pageNum, perPage));
         return new ResponseBean(200, "success", json_result);
@@ -55,11 +57,19 @@ public class DealController {
 
     @RequestMapping(value = "/salerDeal", method = RequestMethod.POST)
     public SalerDeal addSalerDeal(SalerDeal salerDeal) {
-        if (DealMatcher.getInstance().isMatch(salerDeal).equals(StatusCode.TPS_PROCESSED)) {
+        DealMatcher ma = DealMatcher.getInstance();
+        StatusCode code = ma.isMatch(salerDeal);
+        if (code.equals(StatusCode.TPS_PROCESSED)) {
             //already TPS_PROCESSED, we send it to BO
             salerDeal.setStatus(BO ? StatusCode.ACCEPTED : StatusCode.REJECTED);
             salerDealsService.updateSalerDeal(salerDeal);
         }
         return salerDeal;
+    }
+
+    @InitBinder
+    public void initBinder(WebDataBinder binder) {
+        binder.registerCustomEditor(Date.class,
+                new CustomDateEditor(new SimpleDateFormat("yyyy-MM-dd"), true, 10));
     }
 }
