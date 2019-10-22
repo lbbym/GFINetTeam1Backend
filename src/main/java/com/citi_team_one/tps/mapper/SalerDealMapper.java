@@ -8,4 +8,5 @@ public interface SalerDealMapper {
     List<SalerDeal> doFindAll();
     Integer doAddSalerDeal(SalerDeal newDeal);
     Integer doUpdateSalerDeal(SalerDeal newDeal);
+//    Integer insert(SalerDeal newDeal);
 }
