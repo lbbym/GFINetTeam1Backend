@@ -34,7 +34,7 @@
         from sale_deals
     </select>
 
-    <insert id="doAddSalerDeal" parameterType="com.citi_team_one.tps.model.SalerDeal" >
+    <insert id="doAddSalerDeal" parameterType="com.citi_team_one.tps.model.SalerDeal"  useGeneratedKeys="true" keyProperty="id" keyColumn="id">
         insert into sale_deals
         <trim prefix="(" suffix=")" suffixOverrides=",">
             <if test="id != null">
@@ -211,13 +211,13 @@
         where id = #{id,jdbcType=INTEGER}
     </delete>
     <insert id="insert" parameterType="com.citi_team_one.tps.model.SalerDeal" >
-        insert into sale_deals (id, txnl, product_id,
+        insert into sale_deals (id, txn_i, product_id,
         volume, price, notional_principal,
         trade_orig_sys, trade_dest_sys, timestamp,
         inter_orig_sys, inter_i, inter_v_num,
         ver, status, reject_code,
         reject_reason)
-        values (#{id,jdbcType=INTEGER}, #{txnl,jdbcType=INTEGER}, #{productId,jdbcType=VARCHAR},
+        values (#{id,jdbcType=INTEGER}, #{txnI,jdbcType=INTEGER}, #{productId,jdbcType=VARCHAR},
         #{volume,jdbcType=INTEGER}, #{price,jdbcType=DOUBLE}, #{notionalPrincipal,jdbcType=DOUBLE},
         #{tradeOrigSys,jdbcType=VARCHAR}, #{tradeDestSys,jdbcType=INTEGER}, #{timestamp,jdbcType=TIMESTAMP},
         #{interOrigSys,jdbcType=VARCHAR}, #{interI,jdbcType=INTEGER}, #{interVNum,jdbcType=INTEGER},

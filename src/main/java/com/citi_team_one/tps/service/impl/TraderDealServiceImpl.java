@@ -29,7 +29,7 @@ public class TraderDealServiceImpl implements TraderDealsService {
     @Override
     public TraderDeal addTraderDeal(TraderDeal newDeal) {
         newDeal.setId(null);
-        newDeal.setId(traderDealMapper.doAddTraderDeal(newDeal));
+        traderDealMapper.doAddTraderDeal(newDeal);
         return newDeal;
     }
 
