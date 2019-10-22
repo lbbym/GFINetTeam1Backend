@@ -28,11 +28,14 @@ public class TraderDealServiceImpl implements TraderDealsService {
 
     @Override
     public TraderDeal addTraderDeal(TraderDeal newDeal) {
-        return traderDealMapper.doAddTraderDeal(newDeal);
+        newDeal.setId(null);
+        newDeal.setId(traderDealMapper.doAddTraderDeal(newDeal));
+        return newDeal;
     }
 
     @Override
     public TraderDeal updateTraderDeal(TraderDeal updatedDeal){
-        return traderDealMapper.doUpdateTraderDeal(updatedDeal);
+        traderDealMapper.doUpdateTraderDeal(updatedDeal);
+        return updatedDeal;
     }
 }

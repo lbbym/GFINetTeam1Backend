@@ -223,6 +223,9 @@
         #{interOrigSys,jdbcType=VARCHAR}, #{interI,jdbcType=INTEGER}, #{interVNum,jdbcType=INTEGER},
         #{ver,jdbcType=INTEGER}, #{status,jdbcType=VARCHAR}, #{rejectCode,jdbcType=INTEGER},
         #{rejectReason,jdbcType=VARCHAR})
+        <selectKey resultType="Integer" keyProperty="id" >
+            SELECT @@IDENTITY AS ID
+        </selectKey>
     </insert>
     <insert id="insertSelective" parameterType="com.citi_team_one.tps.model.SalerDeal" >
         insert into sale_deals

@@ -1,23 +1,17 @@
 package com.citi_team_one.tps.controller;
 
-
 import com.alibaba.fastjson.JSONObject;
 import com.citi_team_one.tps.auth.JWTUtil;
 import com.citi_team_one.tps.exception.UnauthorizedException;
 import com.citi_team_one.tps.model.ResponseBean;
-import com.citi_team_one.tps.model.SalerDeal;
-import com.citi_team_one.tps.model.TraderDeal;
 import com.citi_team_one.tps.model.User;
-import com.citi_team_one.tps.service.SalerDealsService;
-import com.citi_team_one.tps.service.TraderDealsService;
 import com.citi_team_one.tps.service.UserService;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.*;
-
 import org.apache.log4j.Logger;
-
-import java.util.ArrayList;
-import java.util.List;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/api")
