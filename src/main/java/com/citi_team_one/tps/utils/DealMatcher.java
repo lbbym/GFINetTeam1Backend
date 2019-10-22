@@ -37,7 +37,7 @@ public class DealMatcher {
         return singletonDealMatcher;
     }
 
-    public StatusCode isMatch(SalerDeal salerDeal) {
+    public TraderDeal isMatch(SalerDeal salerDeal) {
         salerDealsService.addSalerDeal(salerDeal);
         salerDealList.add(salerDeal);
         synchronized (traderDealList){
@@ -52,21 +52,24 @@ public class DealMatcher {
                         traderDealsService.updateTraderDeal(traderDeal);
                         salerDealList.remove(salerDeal);
                         traderDealList.remove(traderDeal);
-                        return StatusCode.TPS_PROCESSED;
+                        // if the price match, return the trader deal
+                        return traderDeal;
                     } else {
                         salerDeal.setStatus(StatusCode.PRICE_UNMATCHED);
                         salerDealsService.updateSalerDeal(salerDeal);
-                        return StatusCode.PRICE_UNMATCHED;
+                        // if the price dont match, return the trader deal
+                        return traderDeal;
                     }
                 }
             }
         }
         salerDeal.setStatus(StatusCode.PENDING);
         salerDealsService.updateSalerDeal(salerDeal);
-        return StatusCode.PENDING;
+        // if the deal is still pending, return null
+        return null;
     }
 
-    public StatusCode isMatch(TraderDeal traderDeal) {
+    public SalerDeal isMatch(TraderDeal traderDeal) {
         traderDealsService.addTraderDeal(traderDeal);
         traderDealList.add(traderDeal);
         synchronized (salerDealList){
@@ -81,17 +84,20 @@ public class DealMatcher {
                         salerDealsService.updateSalerDeal(salerDeal);
                         salerDealList.remove(salerDeal);
                         traderDealList.remove(traderDeal);
-                        return StatusCode.TPS_PROCESSED;
+                        // if the price match, return the saler deal
+                        return salerDeal;
                     } else {
                         traderDeal.setStatus(StatusCode.PRICE_UNMATCHED);
                         traderDealsService.updateTraderDeal(traderDeal);
-                        return StatusCode.PRICE_UNMATCHED;
+                        // if the price dont match, return the trader deal
+                        return salerDeal;
                     }
                 }
             }
         }
         traderDeal.setStatus(StatusCode.PENDING);
         traderDealsService.updateTraderDeal(traderDeal);
-        return StatusCode.PENDING;
+        // if the deal is still pending, return null
+        return null;
     }
 }
