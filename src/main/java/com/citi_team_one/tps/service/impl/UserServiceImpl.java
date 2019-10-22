@@ -32,7 +32,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public User addUser(User user){
         user.setId(null);
-        user.setId(userMapper.doAddUser(user));
+        userMapper.doAddUser(user);
         return user;
     }
 }

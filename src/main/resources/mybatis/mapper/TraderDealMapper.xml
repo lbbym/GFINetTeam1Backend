@@ -34,7 +34,7 @@
         from trader_deals
     </select>
 
-    <insert id="doAddTraderDeal" parameterType="com.citi_team_one.tps.model.TraderDeal">
+    <insert id="doAddTraderDeal" parameterType="com.citi_team_one.tps.model.TraderDeal"  useGeneratedKeys="true" keyProperty="id" keyColumn="id">
         insert into trader_deals
         <trim prefix="(" suffix=")" suffixOverrides=",">
             <if test="id != null">
