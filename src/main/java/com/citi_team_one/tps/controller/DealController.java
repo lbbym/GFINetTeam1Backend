@@ -38,9 +38,13 @@ public class DealController {
 
     @RequestMapping(value = "/traderDeal", method = RequestMethod.POST)
     public TraderDeal addTraderDeal(TraderDeal traderDeal) {
-        if (DealMatcher.getInstance().isMatch(traderDeal).equals(StatusCode.TPS_PROCESSED)) {
+        SalerDeal salerDeal = DealMatcher.getInstance().isMatch(traderDeal);
+        if (salerDeal.getStatus().equals(StatusCode.TPS_PROCESSED)) {
             //already TPS_PROCESSED, we send it to BO
+            salerDeal.setStatus(BO ? StatusCode.ACCEPTED : StatusCode.REJECTED);
             traderDeal.setStatus(BO ? StatusCode.ACCEPTED : StatusCode.REJECTED);
+
+            salerDealsService.updateSalerDeal(salerDeal);
             traderDealsService.updateTraderDeal(traderDeal);
         }
         return traderDeal;
@@ -57,12 +61,14 @@ public class DealController {
 
     @RequestMapping(value = "/salerDeal", method = RequestMethod.POST)
     public SalerDeal addSalerDeal(SalerDeal salerDeal) {
-        DealMatcher ma = DealMatcher.getInstance();
-        StatusCode code = ma.isMatch(salerDeal);
-        if (code.equals(StatusCode.TPS_PROCESSED)) {
+        TraderDeal traderDeal = DealMatcher.getInstance().isMatch(salerDeal);
+        if (traderDeal.getStatus().equals(StatusCode.TPS_PROCESSED)) {
             //already TPS_PROCESSED, we send it to BO
             salerDeal.setStatus(BO ? StatusCode.ACCEPTED : StatusCode.REJECTED);
+            traderDeal.setStatus(BO ? StatusCode.ACCEPTED : StatusCode.REJECTED);
+
             salerDealsService.updateSalerDeal(salerDeal);
+            traderDealsService.updateTraderDeal(traderDeal);
         }
         return salerDeal;
     }
