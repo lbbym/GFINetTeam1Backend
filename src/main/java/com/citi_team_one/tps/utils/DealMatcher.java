@@ -48,6 +48,8 @@ public class DealMatcher {
                     if(salerDeal.getPrice().equals(traderDeal.getPrice())){
                         salerDeal.setStatus(StatusCode.TPS_PROCESSED);
                         salerDealsService.updateSalerDeal(salerDeal);
+                        traderDeal.setStatus(StatusCode.TPS_PROCESSED);
+                        traderDealsService.updateTraderDeal(traderDeal);
                         salerDealList.remove(salerDeal);
                         traderDealList.remove(traderDeal);
                         return StatusCode.TPS_PROCESSED;
@@ -75,6 +77,8 @@ public class DealMatcher {
                     if(traderDeal.getPrice().equals(salerDeal.getPrice())){
                         traderDeal.setStatus(StatusCode.TPS_PROCESSED);
                         traderDealsService.updateTraderDeal(traderDeal);
+                        salerDeal.setStatus(StatusCode.TPS_PROCESSED);
+                        salerDealsService.updateSalerDeal(salerDeal);
                         salerDealList.remove(salerDeal);
                         traderDealList.remove(traderDeal);
                         return StatusCode.TPS_PROCESSED;
