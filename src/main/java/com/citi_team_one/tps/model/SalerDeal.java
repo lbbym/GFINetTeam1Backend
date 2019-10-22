@@ -4,6 +4,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.io.Serializable;
+import java.sql.Timestamp;
 import java.util.Date;
 
 @Getter
@@ -28,7 +29,10 @@ public class SalerDeal implements Serializable {
     private String rejectReason;
 
 
-    public SalerDeal(Integer id, Integer txnI, String productId, Integer volume, Double price, Double notionalPrincipal, String tradeOrigSys, Integer tradeSender, Integer tradeReciver, Date timestamp, String interOrigSys, Integer interI, Integer interVNum, Integer ver, String status, Integer rejectCode, String rejectReason) {
+    public SalerDeal(Integer id, Integer txnI, String productId, Integer volume, Double price, Double notionalPrincipal,
+                     String tradeOrigSys, Integer tradeSender, Integer tradeReciver, Date timestamp,
+                     String interOrigSys, Integer interI, Integer interVNum, Integer ver, String status,
+                     Integer rejectCode, String rejectReason) {
         this.id = id;
         this.txnI = txnI;
         this.productId = productId;
