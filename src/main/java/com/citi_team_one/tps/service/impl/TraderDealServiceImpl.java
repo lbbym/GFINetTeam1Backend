@@ -47,7 +47,8 @@ public class TraderDealServiceImpl implements TraderDealsService {
     @Override
     public TraderDeal updateTraderDeal(TraderDeal updatedDeal) {
         updatedDeal.setInterVNum(updatedDeal.getInterVNum() + 1);
-        traderDealMapper.doUpdateTraderDeal(updatedDeal);
+        System.out.println("!!!!!!!!!!!!!!");
+        System.out.println(traderDealMapper.doUpdateTraderDeal(updatedDeal));
         return updatedDeal;
     }
 }

@@ -22,7 +22,6 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-@Api(value = "Deals controller", tags = {"Deals controller"})
 @RestController
 @RequestMapping("/api")
 public class DealController {
@@ -35,9 +34,12 @@ public class DealController {
     @Autowired
     private CusipUserService cusipUserService;
 
-    @ApiOperation(value = "Get all trader-created deals by trader id", notes = "Called by TW when page first created")
+    @ApiOperation(
+            value = "获取该用户下的所有Cusip, 以及该Cusip下的所有traderDeal",
+            notes = "在用户刚刚登入TW时调用该api",
+            tags = "获取traderDeal")
     @RequestMapping(value = "/traderDeal", method = RequestMethod.GET)
-    public JSONObject getTraderDeals(@RequestParam("traderId") @ApiParam(value = "UserId: who log in TW", required = true) Integer traderId) {
+    public JSONObject getTraderDeals(@RequestParam("traderId") @ApiParam(value = "UserId: 登入TW的用户的ID", required = true) Integer traderId) {
         JSONObject json_result = new JSONObject(true);
         JSONArray cusips = new JSONArray();
 
@@ -74,12 +76,15 @@ public class DealController {
         return json_result;
     }
 
-    @ApiOperation(value = "Add a trader-created deal", notes = "Called by TW when click 'Add'")
+    @ApiOperation(
+            value = "添加一条traderDeal",
+            notes = "在用户登入TW后， 点击Add trader时调用",
+            tags = "添加traderDeal")
     @RequestMapping(value = "/traderDeal", method = RequestMethod.POST)
-    public TraderDeal addTraderDeal(@RequestParam("productId") @ApiParam(value = "ProductId: same as cusip", required = true) String productId,
-                                    @RequestParam("senderId") @ApiParam(value = "UserId: who log in TW", required = true) Integer senderId,
-                                    @RequestParam("reciverId") @ApiParam(value = "UserId: always saler's Id", required = true) Integer reciverId,
-                                    @RequestParam("volume") @ApiParam(value = "the number of goods", required = true) Integer volume,
+    public TraderDeal addTraderDeal(@RequestParam("productId") @ApiParam(value = "ProductId: 就是当前的Cusip", required = true) String productId,
+                                    @RequestParam("senderId") @ApiParam(value = "UserId: 谁发送的这个trade, 一般是登录TW的那个人", required = true) Integer senderId,
+                                    @RequestParam("reciverId") @ApiParam(value = "UserId: 谁接受这个trade, 一般是唯一的那一个Saler", required = true) Integer reciverId,
+                                    @RequestParam("volume") @ApiParam(value = "商品数量", required = true) Integer volume,
                                     @RequestParam("price") @ApiParam(value = "", required = true) Double price) {
         TraderDeal traderDeal = new TraderDeal();
         traderDeal.setStatus(StatusCode.REQUESTED);
@@ -100,13 +105,16 @@ public class DealController {
         return traderDeal;
     }
 
-    @ApiOperation(value = "Add a saler-created deal", notes = "Called by SW when click 'Add'")
+    @ApiOperation(
+            value = "添加一条salerDeal",
+            notes = "在用户登入SW后， 点击Add trader时调用",
+            tags = "添加salerDeal")
     @RequestMapping(value = "/salerDeal", method = RequestMethod.POST)
-    public SalerDeal addSalerDeal(@RequestParam("productId") @ApiParam(value = "ProductId: same as cusip", required = true) String productId,
-                                  @RequestParam("senderId") @ApiParam(value = "UserId: who log in SW, this is also a constant value", required = true) Integer senderId,
-                                  @RequestParam("reciverId") @ApiParam(value = "UserId: trader's id", required = true) Integer reciverId,
-                                  @RequestParam("volume") @ApiParam(value = "the number of goods", required = true) Integer volume,
-                                  @RequestParam("price") @ApiParam(value = "", required = true) Double price) {
+    public SalerDeal addSalerDeal(@RequestParam("productId") @ApiParam(value = "ProductId: 先调用GetProducts获取所有的Products， 然后选一个填到这里", required = true) String productId,
+                                  @RequestParam("senderId") @ApiParam(value = "UserId: 谁发送的这个trade, 是登录SW的那个唯一的人", required = true) Integer senderId,
+                                  @RequestParam("reciverId") @ApiParam(value = "UserId:  谁接受这个trade, 是某一个trader", required = true) Integer reciverId,
+                                  @RequestParam("volume") @ApiParam(value = "商品数量", required = true) Integer volume,
+                                  @RequestParam("price") @ApiParam(value = "价格", required = true) Double price) {
         SalerDeal salerDeal = new SalerDeal();
         salerDeal.setStatus(StatusCode.REQUESTED);
         salerDeal.setProductId(productId);
@@ -117,7 +125,6 @@ public class DealController {
         salerDeal.setInterI(senderId);
         salerDeal.setVer(1);
         salerDeal.setInterVNum(1);
-        //TODO send it to Matcher and immediately return a deal with StatusCode.PENDING
         try {
             DealMatcher.getInstance().isMatch(salerDeal);
         } catch (Exception e) {
@@ -126,32 +133,49 @@ public class DealController {
         return salerDeal;
     }
 
-    @ApiOperation(value = "Update a trader-created deal with new price", notes = "Called by TW when click 'Edit'")
+    @ApiOperation(
+            value = "用新输入的价格去更新一条tradeDeal",
+            notes = "在TW里点了'Edit'之后调用",
+            tags = "更新traderDeal")
     @RequestMapping(value = "/traderDeal", method = RequestMethod.PUT)
-    public TraderDeal updateTraderDeal(@ApiParam(value = "id of the trade where you click 'Edit'", required = true) Integer traderDealId,
-                                       @ApiParam(value = "new value you input", required = true) Double newPrice) {
+    public TraderDeal updateTraderDeal(@ApiParam(value = "要修改的traderDeal的Id", required = true) Integer traderDealId,
+                                       @ApiParam(value = "新的价格", required = true) Double newPrice) {
         TraderDeal traderDeal = traderDealsService.findById(traderDealId);
         traderDeal.setPrice(newPrice);
         traderDealsService.updateTraderDeal(traderDeal);
-        //TODO send it to Matcher
+        try {
+            DealMatcher.getInstance().isMatch(traderDeal);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         return traderDeal;
     }
 
-    @ApiOperation(value = "Update a saler-created deal with its relative trader-created deal's price value", notes = "Called by TW when click 'Merge'")
+    @ApiOperation(
+            value = "用同属于一份订单的traderDeald的价格去更新一条salerDeal",
+            notes = "在TW里点了'Merge'之后调用",
+            tags = "合并/同步traderDeal和salerDeal")
     @RequestMapping(value = "/merge", method = RequestMethod.PUT)
-    public SalerDeal merge(@ApiParam(value = "id of the trade where you click 'Merge'. and this is a salerDeal", required = true) Integer salerDealId,
-                           @ApiParam(value = "price of this salerDeal's assicoted deal, which is a tradeDeal", required = true) Double traderDealPrice) {
+    public SalerDeal merge(@ApiParam(value = "要修改的salerDeal的Id", required = true) Integer salerDealId,
+                           @ApiParam(value = "同属于一份订单的traderDeald的价格", required = true) Double traderDealPrice) {
         SalerDeal salerDeal = salerDealsService.findById(salerDealId);
         salerDeal.setPrice(traderDealPrice);
         salerDealsService.updateSalerDeal(salerDeal);
-        //TODO send it to Matcher
+        try {
+            DealMatcher.getInstance().isMatch(salerDeal);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         return salerDeal;
     }
 
-    @ApiOperation(value = "Add a cusip-user record", notes = "Called by TW when click 'Add Cusip'")
+    @ApiOperation(
+            value = "给当前用户添加一个Cusip",
+            notes = "在用户登入TW后， 点击'Add Cusip'时调用",
+            tags = "添加CusipUser关系")
     @RequestMapping(value = "/cusipUser", method = RequestMethod.POST)
-    public CusipUser addCusipForUser(@ApiParam(value = "UserId: who log in TW", required = true) Integer traderId,
-                                     @ApiParam(value = "", required = true) String productId) {
+    public CusipUser addCusipForUser(@ApiParam(value = "UserId: 登入TW的用户的ID", required = true) Integer traderId,
+                                     @ApiParam(value = "要添加的Cusip的ID", required = true) String productId) {
         CusipUser cusipUser = new CusipUser();
         cusipUser.setUserId(traderId);
         cusipUser.setProductId(productId);
@@ -159,13 +183,13 @@ public class DealController {
         return cusipUser;
     }
 
-    @ApiOperation(value = "Get all cusips this user owned", notes = "Called by TW when page first created")
-    @RequestMapping(value = "/cusipUser", method = RequestMethod.GET)
-    public JSONObject getCusips(@RequestParam("traderId") @ApiParam(value = "UserId: who log in TW", required = true) Integer traderId) {
-        JSONObject json_result = new JSONObject(true);
-        json_result.put("myCusips", cusipUserService.findProductsByTraderId(traderId));
-        return json_result;
-    }
+//    @ApiOperation(value = "Get all cusips this user owned", notes = "Called by TW when page first created")
+//    @RequestMapping(value = "/cusipUser", method = RequestMethod.GET)
+//    public JSONObject getAllProducts(@RequestParam("traderId") @ApiParam(value = "UserId: who log in TW", required = true) Integer traderId) {
+//        JSONObject json_result = new JSONObject(true);
+//        json_result.put("myCusips", cusipUserService.findProductsByTraderId(traderId));
+//        return json_result;
+//    }
 
     @InitBinder
     public void initBinder(WebDataBinder binder) {
