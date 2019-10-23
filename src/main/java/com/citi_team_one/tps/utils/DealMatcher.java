@@ -24,7 +24,7 @@ public class DealMatcher {
     BlockingQueue<SalerDeal> salerDealList = new LinkedBlockingDeque<>();
 
     private static DealMatcher singletonDealMatcher = new DealMatcher();
-    private OBVerify obVerify = new OBVerify();
+    private BOVerify BOVerify = new BOVerify();
 
     private DealMatcher() {
     }
@@ -52,7 +52,7 @@ public class DealMatcher {
                         salerDealsService.updateSalerDeal(salerDeal);
                         traderDeal.setStatus(StatusCode.TPS_PROCESSED);
                         traderDealsService.updateTraderDeal(traderDeal);
-                        obVerify.getOBVerifyMsg(salerDeal, traderDeal);
+                        BOVerify.getBOVerifyMsg(salerDeal, traderDeal);
                         salerDealList.remove(salerDeal);
                         traderDealList.remove(traderDeal);
                         // if the price match, return the trader deal
@@ -85,7 +85,7 @@ public class DealMatcher {
                         traderDealsService.updateTraderDeal(traderDeal);
                         salerDeal.setStatus(StatusCode.TPS_PROCESSED);
                         salerDealsService.updateSalerDeal(salerDeal);
-                        obVerify.getOBVerifyMsg(salerDeal, traderDeal);
+                        BOVerify.getBOVerifyMsg(salerDeal, traderDeal);
                         salerDealList.remove(salerDeal);
                         traderDealList.remove(traderDeal);
                         // if the price match, return the saler deal
