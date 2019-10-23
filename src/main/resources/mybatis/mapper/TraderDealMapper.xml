@@ -42,7 +42,7 @@
     </select>
 
 
-    <insert id="doAddTraderDeal" parameterType="com.citi_team_one.tps.model.TraderDeal"  useGeneratedKeys="true" keyProperty="id" keyColumn="id">
+    <insert id="doAddTraderDeal" parameterType="com.citi_team_one.tps.model.TraderDeal"  useGeneratedKeys="true" keyProperty="txnI" keyColumn="txn_i">
         insert into trader_deals
         <trim prefix="(" suffix=")" suffixOverrides=",">
             <if test="txnI != null">
