@@ -5,7 +5,7 @@ import com.citi_team_one.tps.model.TraderDeal;
 import java.util.List;
 
 public interface TraderDealMapper {
-    TraderDeal selectByPrimaryKey(Integer id);
+    TraderDeal doFindByTxnI(Integer txnI);
     List<TraderDeal> doFindAllBySenderId(Integer senderId);
     List<TraderDeal> doFindAll();
     Integer doAddTraderDeal(TraderDeal newDeal);

@@ -6,9 +6,11 @@ import com.alibaba.fastjson.JSONObject;
 import com.citi_team_one.tps.auth.JWTUtil;
 import com.citi_team_one.tps.model.*;
 import com.citi_team_one.tps.service.CusipUserService;
+import com.citi_team_one.tps.service.ProductService;
 import com.citi_team_one.tps.service.SalerDealsService;
 import com.citi_team_one.tps.service.TraderDealsService;
 import com.citi_team_one.tps.utils.DealMatcher;
+import com.citi_team_one.tps.utils.StatusUtil;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
@@ -33,13 +35,15 @@ public class DealController {
     private SalerDealsService salerDealsService;
     @Autowired
     private CusipUserService cusipUserService;
+    @Autowired
+    private ProductService productService;
 
     @ApiOperation(
             value = "获取该用户下的所有Cusip, 以及该Cusip下的所有traderDeal",
             notes = "在用户刚刚登入TW时调用该api",
             tags = "获取traderDeal")
     @RequestMapping(value = "/traderDeal", method = RequestMethod.GET)
-    public JSONObject getTraderDeals(@RequestParam("traderId") @ApiParam(value = "UserId: 登入TW的用户的ID", required = true) Integer traderId) {
+    public JSONObject getTraderDeals(@RequestParam("traderId") @ApiParam(value = "UserId: 登入TW的用户的ID", required = true, example = "1") Integer traderId) {
         JSONObject json_result = new JSONObject(true);
         JSONArray cusips = new JSONArray();
 
@@ -81,11 +85,11 @@ public class DealController {
             notes = "在用户登入TW后， 点击Add trader时调用",
             tags = "添加traderDeal")
     @RequestMapping(value = "/traderDeal", method = RequestMethod.POST)
-    public TraderDeal addTraderDeal(@RequestParam("productId") @ApiParam(value = "ProductId: 就是当前的Cusip", required = true) String productId,
-                                    @RequestParam("senderId") @ApiParam(value = "UserId: 谁发送的这个trade, 一般是登录TW的那个人", required = true) Integer senderId,
-                                    @RequestParam("reciverId") @ApiParam(value = "UserId: 谁接受这个trade, 一般是唯一的那一个Saler", required = true) Integer reciverId,
-                                    @RequestParam("volume") @ApiParam(value = "商品数量", required = true) Integer volume,
-                                    @RequestParam("price") @ApiParam(value = "", required = true) Double price) {
+    public TraderDeal addTraderDeal(@RequestParam("productId") @ApiParam(value = "ProductId: 就是当前的Cusip", required = true, example = "1") String productId,
+                                    @RequestParam("senderId") @ApiParam(value = "UserId: 谁发送的这个trade, 一般是登录TW的那个人", required = true, example = "1") Integer senderId,
+                                    @RequestParam("reciverId") @ApiParam(value = "UserId: 谁接受这个trade, 一般是唯一的那一个Saler", required = true, example = "1") Integer reciverId,
+                                    @RequestParam("volume") @ApiParam(value = "商品数量", required = true, example = "1") Integer volume,
+                                    @RequestParam("price") @ApiParam(value = "", required = true, example = "1") Double price) {
         TraderDeal traderDeal = new TraderDeal();
         traderDeal.setStatus(StatusCode.REQUESTED);
         traderDeal.setProductId(productId);
@@ -93,10 +97,12 @@ public class DealController {
         traderDeal.setTradeReciver(reciverId);
         traderDeal.setVolume(volume);
         traderDeal.setPrice(price);
+        traderDeal.setNotionalPrincipal(volume * price);
         traderDeal.setInterI(senderId);
-        traderDeal.setVer(1);
+        traderDeal.setVer(StatusUtil.stastr2int(traderDeal.getStatus()));
         traderDeal.setInterVNum(1);
-        //TODO send it to Matcher and immediately return a deal with StatusCode.PENDING
+        traderDeal.setTradeOrigSys("TW");
+        traderDeal.setInterOrigSys("TW");
         try {
             DealMatcher.getInstance().isMatch(traderDeal);
         } catch (Exception e) {
@@ -110,11 +116,11 @@ public class DealController {
             notes = "在用户登入SW后， 点击Add trader时调用",
             tags = "添加salerDeal")
     @RequestMapping(value = "/salerDeal", method = RequestMethod.POST)
-    public SalerDeal addSalerDeal(@RequestParam("productId") @ApiParam(value = "ProductId: 先调用GetProducts获取所有的Products， 然后选一个填到这里", required = true) String productId,
-                                  @RequestParam("senderId") @ApiParam(value = "UserId: 谁发送的这个trade, 是登录SW的那个唯一的人", required = true) Integer senderId,
-                                  @RequestParam("reciverId") @ApiParam(value = "UserId:  谁接受这个trade, 是某一个trader", required = true) Integer reciverId,
-                                  @RequestParam("volume") @ApiParam(value = "商品数量", required = true) Integer volume,
-                                  @RequestParam("price") @ApiParam(value = "价格", required = true) Double price) {
+    public SalerDeal addSalerDeal(@RequestParam("productId") @ApiParam(value = "ProductId: 先调用GetProducts获取所有的Products， 然后选一个填到这里", required = true, example = "1") String productId,
+                                  @RequestParam("senderId") @ApiParam(value = "UserId: 谁发送的这个trade, 是登录SW的那个唯一的人", required = true, example = "1") Integer senderId,
+                                  @RequestParam("receiverId") @ApiParam(value = "UserId:  谁接受这个trade, 是某一个trader", required = true, example = "1") Integer reciverId,
+                                  @RequestParam("volume") @ApiParam(value = "商品数量", required = true, example = "1") Integer volume,
+                                  @RequestParam("price") @ApiParam(value = "价格", required = true, example = "1") Double price) {
         SalerDeal salerDeal = new SalerDeal();
         salerDeal.setStatus(StatusCode.REQUESTED);
         salerDeal.setProductId(productId);
@@ -122,9 +128,12 @@ public class DealController {
         salerDeal.setTradeReciver(reciverId);
         salerDeal.setVolume(volume);
         salerDeal.setPrice(price);
+        salerDeal.setNotionalPrincipal(volume * price);
         salerDeal.setInterI(senderId);
-        salerDeal.setVer(1);
+        salerDeal.setVer(StatusUtil.stastr2int(salerDeal.getStatus()));
         salerDeal.setInterVNum(1);
+        salerDeal.setTradeOrigSys("SW");
+        salerDeal.setInterOrigSys("SW");
         try {
             DealMatcher.getInstance().isMatch(salerDeal);
         } catch (Exception e) {
@@ -138,10 +147,14 @@ public class DealController {
             notes = "在TW里点了'Edit'之后调用",
             tags = "更新traderDeal")
     @RequestMapping(value = "/traderDeal", method = RequestMethod.PUT)
-    public TraderDeal updateTraderDeal(@ApiParam(value = "要修改的traderDeal的Id", required = true) Integer traderDealId,
-                                       @ApiParam(value = "新的价格", required = true) Double newPrice) {
+    public TraderDeal updateTraderDeal(@RequestParam("traderDealId") @ApiParam(value = "要修改的traderDeal的Id", required = true, example = "1") Integer traderDealId,
+                                       @RequestParam("newPrice") @ApiParam(value = "新的价格", required = true, example = "1") Double newPrice) {
         TraderDeal traderDeal = traderDealsService.findById(traderDealId);
         traderDeal.setPrice(newPrice);
+
+        traderDeal.setInterI(traderDeal.getTradeSender());
+        traderDeal.setInterOrigSys("TW");
+        traderDeal.setInterVNum(traderDeal.getInterVNum()+1);
         traderDealsService.updateTraderDeal(traderDeal);
         try {
             DealMatcher.getInstance().isMatch(traderDeal);
@@ -156,10 +169,14 @@ public class DealController {
             notes = "在TW里点了'Merge'之后调用",
             tags = "合并/同步traderDeal和salerDeal")
     @RequestMapping(value = "/merge", method = RequestMethod.PUT)
-    public SalerDeal merge(@ApiParam(value = "要修改的salerDeal的Id", required = true) Integer salerDealId,
-                           @ApiParam(value = "同属于一份订单的traderDeald的价格", required = true) Double traderDealPrice) {
+    public SalerDeal merge(@RequestParam("salerDealId") @ApiParam(value = "要修改的salerDeal的Id", required = true, example = "1") Integer salerDealId,
+                           @RequestParam("traderDealPrice") @ApiParam(value = "同属于一份订单的traderDeald的价格", required = true, example = "1") Double traderDealPrice) {
         SalerDeal salerDeal = salerDealsService.findById(salerDealId);
         salerDeal.setPrice(traderDealPrice);
+
+        salerDeal.setInterI(salerDeal.getTradeReciver());
+        salerDeal.setInterOrigSys("TW");
+        salerDeal.setInterVNum(salerDeal.getInterVNum()+1);
         salerDealsService.updateSalerDeal(salerDeal);
         try {
             DealMatcher.getInstance().isMatch(salerDeal);
@@ -174,8 +191,8 @@ public class DealController {
             notes = "在用户登入TW后， 点击'Add Cusip'时调用",
             tags = "添加CusipUser关系")
     @RequestMapping(value = "/cusipUser", method = RequestMethod.POST)
-    public CusipUser addCusipForUser(@ApiParam(value = "UserId: 登入TW的用户的ID", required = true) Integer traderId,
-                                     @ApiParam(value = "要添加的Cusip的ID", required = true) String productId) {
+    public CusipUser addCusipForUser(@RequestParam("traderId") @ApiParam(value = "UserId: 登入TW的用户的ID", required = true, example = "1") Integer traderId,
+                                     @RequestParam("productId") @ApiParam(value = "要添加的Cusip的ID", required = true, example = "1") String productId) {
         CusipUser cusipUser = new CusipUser();
         cusipUser.setUserId(traderId);
         cusipUser.setProductId(productId);
@@ -183,13 +200,14 @@ public class DealController {
         return cusipUser;
     }
 
-//    @ApiOperation(value = "Get all cusips this user owned", notes = "Called by TW when page first created")
-//    @RequestMapping(value = "/cusipUser", method = RequestMethod.GET)
-//    public JSONObject getAllProducts(@RequestParam("traderId") @ApiParam(value = "UserId: who log in TW", required = true) Integer traderId) {
-//        JSONObject json_result = new JSONObject(true);
-//        json_result.put("myCusips", cusipUserService.findProductsByTraderId(traderId));
-//        return json_result;
-//    }
+    @ApiOperation(
+            value = "获取所有商品信息",
+            notes = "在用户登入TW时就要调用了",
+            tags = "获取所有商品信息")
+    @RequestMapping(value = "/products", method = RequestMethod.GET)
+    public List<Product> getAllProducts() {
+        return productService.findAll();
+    }
 
     @InitBinder
     public void initBinder(WebDataBinder binder) {

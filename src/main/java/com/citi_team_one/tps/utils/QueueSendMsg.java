@@ -10,7 +10,9 @@ import java.io.Serializable;
 public class QueueSendMsg {
     public static final String user="";
     public static final String pwd="";
-    public static final String url = "tcp://tcp://47.100.138.62:61616";
+//    public static final String url = "tcp://172.17.12.252:61616";
+    public static final String url = "tcp://127.0.0.1:61616";
+
     public static final String name = "queue.msgObj";
     public void sendMsg(SalerDeal salerDeal) throws JMSException {
         ConnectionFactory connectionfactory = new ActiveMQConnectionFactory(url);

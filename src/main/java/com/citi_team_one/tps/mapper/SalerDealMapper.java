@@ -6,7 +6,7 @@ import java.util.List;
 
 public interface SalerDealMapper {
     List<SalerDeal> doFindAll();
-    SalerDeal selectByPrimaryKey(Integer id);
+    SalerDeal doFindByTxnI(Integer txnI);
     SalerDeal doFindByOrderId(String orderId);
     Integer doAddSalerDeal(SalerDeal newDeal);
     Integer doUpdateSalerDeal(SalerDeal newDeal);

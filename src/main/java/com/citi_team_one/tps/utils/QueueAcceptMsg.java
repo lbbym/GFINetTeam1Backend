@@ -17,28 +17,30 @@ public class QueueAcceptMsg implements MessageListener {
     @Autowired
     private TraderDealsService traderDealsService;
 
-    public static final String user="";
-    public static final String pwd="";
-    public static final String url = "tcp://47.100.138.62:61616";
-    public static final String name = "queue.msgTxt";
-    boolean ifReply=false;
-    String stringRes=null;
+    public static final String user = "";
+    public static final String pwd = "";
+    //    public static final String url = "tcp://172.17.12.252:61616";
+    public static final String url = "tcp://127.0.0.1:61616";
 
-    ActiveMQConnectionFactory connectionfactory =null;
-    Connection connection=null;
-    Session session=null;
+    public static final String name = "queue.msgTxt";
+    boolean ifReply = false;
+    String stringRes = null;
+
+    ActiveMQConnectionFactory connectionfactory = null;
+    Connection connection = null;
+    Session session = null;
     SalerDeal salerDeal;
     TraderDeal traderDeal;
 
     public void acceptMsg(SalerDeal salerDeal, TraderDeal traderDeal) throws JMSException {
         this.salerDeal = salerDeal;
         this.traderDeal = traderDeal;
-        if(connectionfactory==null){
+        if (connectionfactory == null) {
             connectionfactory = new ActiveMQConnectionFactory(url);
 //            connectionfactory = new ActiveMQConnectionFactory(user,pwd,url);
             connectionfactory.setTrustAllPackages(true);
         }
-        if(connection==null){
+        if (connection == null) {
             connection = connectionfactory.createConnection();
             connection.start();
         }
@@ -51,19 +53,19 @@ public class QueueAcceptMsg implements MessageListener {
 
     @Override
     public void onMessage(Message message) {
-        if(message instanceof TextMessage){
+        if (message instanceof TextMessage) {
             TextMessage text = (TextMessage) message;
             try {
                 stringRes = text.getText();
-                System.out.println("accepted text message:"+text.getText());
+                System.out.println("accepted text message:" + text.getText());
                 //salerDeal.setStatus();
                 //update the DB
-                if(text.getText().equals("accept")){
+                if (text.getText().equals("accept")) {
                     salerDeal.setStatus(StatusCode.ACCEPTED);
                     traderDeal.setStatus(StatusCode.ACCEPTED);
                     salerDealsService.updateSalerDeal(salerDeal);
                     traderDealsService.updateTraderDeal(traderDeal);
-                } else if(text.getText().equals("reject")){
+                } else if (text.getText().equals("reject")) {
                     salerDeal.setStatus(StatusCode.REJECTED);
                     traderDeal.setStatus(StatusCode.REJECTED);
                     salerDealsService.updateSalerDeal(salerDeal);

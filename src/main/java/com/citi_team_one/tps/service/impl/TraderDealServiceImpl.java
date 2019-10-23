@@ -6,6 +6,7 @@ import com.citi_team_one.tps.model.TraderDeal;
 import com.citi_team_one.tps.service.SalerDealsService;
 import com.citi_team_one.tps.service.TraderDealsService;
 import com.citi_team_one.tps.utils.DealMatcher;
+import com.citi_team_one.tps.utils.StatusUtil;
 import com.github.pagehelper.PageHelper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -23,7 +24,7 @@ public class TraderDealServiceImpl implements TraderDealsService {
 
     @Override
     public TraderDeal findById(Integer id) {
-        return traderDealMapper.selectByPrimaryKey(id);
+        return traderDealMapper.doFindByTxnI(id);
     }
 
     @Override
@@ -46,9 +47,9 @@ public class TraderDealServiceImpl implements TraderDealsService {
 
     @Override
     public TraderDeal updateTraderDeal(TraderDeal updatedDeal) {
-        updatedDeal.setInterVNum(updatedDeal.getInterVNum() + 1);
-        System.out.println("!!!!!!!!!!!!!!");
-        System.out.println(traderDealMapper.doUpdateTraderDeal(updatedDeal));
+        updatedDeal.setNotionalPrincipal(updatedDeal.getVolume()*updatedDeal.getPrice());
+        updatedDeal.setVer(StatusUtil.stastr2int(updatedDeal.getStatus())+updatedDeal.getInterVNum());
+        traderDealMapper.doUpdateTraderDeal(updatedDeal);
         return updatedDeal;
     }
 }
