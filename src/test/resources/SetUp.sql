@@ -1,12 +1,12 @@
 use tps;
 
---drop old tables if exists
-DROP TABLE  IF EXISTS trader_deals;
-DROP TABLE  IF EXISTS sale_deals;
-DROP TABLE  IF EXISTS product;
-DROP TABLE  IF EXISTS user;
-DROP TABLE  IF EXISTS role;
-DROP TABLE  IF EXISTS cusip_user;
+-- Drop Existing Old Tables (if exists)
+DROP TABLE IF EXISTS trader_deals;
+DROP TABLE IF EXISTS sale_deals;
+DROP TABLE IF EXISTS product;
+DROP TABLE IF EXISTS user;
+DROP TABLE IF EXISTS role;
+DROP TABLE IF EXISTS cusip_user;
 
 CREATE TABLE IF NOT EXISTS `trader_deals`(
     `txn_i` INT UNSIGNED AUTO_INCREMENT,
