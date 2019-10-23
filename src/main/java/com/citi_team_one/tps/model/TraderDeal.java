@@ -9,13 +9,12 @@ import java.util.Date;
 @Getter
 @Setter
 public class TraderDeal implements Serializable {
-    private Integer id;
     private Integer txnI;
     private String productId;
     private Integer volume;
     private Double price;
     private Double notionalPrincipal;
-    private String tradeOrigSys;
+    private String orderId;
     private Integer tradeSender;
     private Integer tradeReciver;
     private Date timestamp;
@@ -26,14 +25,18 @@ public class TraderDeal implements Serializable {
     private String status;
     private Integer rejectCode;
     private String rejectReason;
-    public TraderDeal(Integer id, Integer txnI, String productId, Integer volume, Double price, Double notionalPrincipal, String tradeOrigSys, Integer tradeSender, Integer tradeReciver, Date timestamp, String interOrigSys, Integer interI, Integer interVNum, Integer ver, String status, Integer rejectCode, String rejectReason) {
-        this.id = id;
+    private String tradeOrigSys;
+    public TraderDeal(Integer txnI, String productId, Integer volume,
+                      Double price, Double notionalPrincipal, String orderId,
+                      Integer tradeSender, Integer tradeReciver, Date timestamp,
+                      String interOrigSys, Integer interI, Integer interVNum, Integer ver,
+                      String status, Integer rejectCode, String rejectReason, String tradeOrigSys) {
         this.txnI = txnI;
         this.productId = productId;
         this.volume = volume;
         this.price = price;
         this.notionalPrincipal = notionalPrincipal;
-        this.tradeOrigSys = tradeOrigSys;
+        this.orderId = orderId;
         this.tradeSender = tradeSender;
         this.tradeReciver = tradeReciver;
         this.timestamp = timestamp;
@@ -44,6 +47,7 @@ public class TraderDeal implements Serializable {
         this.status = status;
         this.rejectCode = rejectCode;
         this.rejectReason = rejectReason;
+        this.tradeOrigSys = tradeOrigSys;
     }
     public TraderDeal() {
         super();
@@ -52,13 +56,12 @@ public class TraderDeal implements Serializable {
     @Override
     public String toString() {
         return "TraderDeal{" +
-                "id=" + id +
-                ", txnI=" + txnI +
+                "txnI=" + txnI +
                 ", productId='" + productId + '\'' +
                 ", volume=" + volume +
                 ", price=" + price +
                 ", notionalPrincipal=" + notionalPrincipal +
-                ", tradeOrigSys='" + tradeOrigSys + '\'' +
+                ", orderId='" + orderId + '\'' +
                 ", tradeSender=" + tradeSender +
                 ", tradeReciver=" + tradeReciver +
                 ", timestamp=" + timestamp +
@@ -69,6 +72,7 @@ public class TraderDeal implements Serializable {
                 ", status='" + status + '\'' +
                 ", rejectCode=" + rejectCode +
                 ", rejectReason='" + rejectReason + '\'' +
+                ", tradeOrigSys='" + tradeOrigSys + '\'' +
                 '}';
     }
 
