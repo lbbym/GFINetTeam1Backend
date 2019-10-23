@@ -4,20 +4,18 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.io.Serializable;
-import java.sql.Timestamp;
 import java.util.Date;
 
 @Getter
 @Setter
 public class SalerDeal implements Serializable {
     private static final long serialVersionUID = 1L;
-    private Integer id;
     private Integer txnI;
     private String productId;
     private Integer volume;
     private Double price;
     private Double notionalPrincipal;
-    private String tradeOrigSys;
+    private String orderId;
     private Integer tradeSender;
     private Integer tradeReciver;
     private Date timestamp;
@@ -28,19 +26,20 @@ public class SalerDeal implements Serializable {
     private String status;
     private Integer rejectCode;
     private String rejectReason;
+    private String tradeOrigSys;
 
 
-    public SalerDeal(Integer id, Integer txnI, String productId, Integer volume, Double price, Double notionalPrincipal,
-                     String tradeOrigSys, Integer tradeSender, Integer tradeReciver, Date timestamp,
-                     String interOrigSys, Integer interI, Integer interVNum, Integer ver, String status,
-                     Integer rejectCode, String rejectReason) {
-        this.id = id;
+    public SalerDeal(Integer txnI, String productId, Integer volume,
+                     Double price, Double notionalPrincipal, String orderId,
+                     Integer tradeSender, Integer tradeReciver, Date timestamp,
+                     String interOrigSys, Integer interI, Integer interVNum, Integer ver,
+                     String status, Integer rejectCode, String rejectReason, String tradeOrigSys) {
         this.txnI = txnI;
         this.productId = productId;
         this.volume = volume;
         this.price = price;
         this.notionalPrincipal = notionalPrincipal;
-        this.tradeOrigSys = tradeOrigSys;
+        this.orderId = orderId;
         this.tradeSender = tradeSender;
         this.tradeReciver = tradeReciver;
         this.timestamp = timestamp;
@@ -51,6 +50,7 @@ public class SalerDeal implements Serializable {
         this.status = status;
         this.rejectCode = rejectCode;
         this.rejectReason = rejectReason;
+        this.tradeOrigSys = tradeOrigSys;
     }
 
     public SalerDeal() {
@@ -60,13 +60,12 @@ public class SalerDeal implements Serializable {
     @Override
     public String toString() {
         return "SalerDeal{" +
-                "id=" + id +
-                ", txnI=" + txnI +
+                "txnI=" + txnI +
                 ", productId='" + productId + '\'' +
                 ", volume=" + volume +
                 ", price=" + price +
                 ", notionalPrincipal=" + notionalPrincipal +
-                ", tradeOrigSys='" + tradeOrigSys + '\'' +
+                ", orderId='" + orderId + '\'' +
                 ", tradeSender=" + tradeSender +
                 ", tradeReciver=" + tradeReciver +
                 ", timestamp=" + timestamp +
@@ -77,6 +76,7 @@ public class SalerDeal implements Serializable {
                 ", status='" + status + '\'' +
                 ", rejectCode=" + rejectCode +
                 ", rejectReason='" + rejectReason + '\'' +
+                ", tradeOrigSys='" + tradeOrigSys + '\'' +
                 '}';
     }
 

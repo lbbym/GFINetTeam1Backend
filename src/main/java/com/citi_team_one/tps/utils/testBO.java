@@ -12,6 +12,7 @@ public class testBO {
         salerDeal.setPrice((double)199);
 
         TraderDeal traderDeal = new TraderDeal();
+        traderDeal.setId(1);
 
         BOVerify BOVerify = new BOVerify();
         BOVerify.getBOVerifyMsg(salerDeal,traderDeal);
