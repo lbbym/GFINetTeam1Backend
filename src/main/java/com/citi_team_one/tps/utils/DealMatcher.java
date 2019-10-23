@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
+import javax.jms.JMSException;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingDeque;
 
@@ -23,6 +24,7 @@ public class DealMatcher {
     BlockingQueue<SalerDeal> salerDealList = new LinkedBlockingDeque<>();
 
     private static DealMatcher singletonDealMatcher = new DealMatcher();
+    private OBVerify obVerify = new OBVerify();
 
     private DealMatcher() {
     }
@@ -37,7 +39,7 @@ public class DealMatcher {
         return singletonDealMatcher;
     }
 
-    public TraderDeal isMatch(SalerDeal salerDeal) {
+    public TraderDeal isMatch(SalerDeal salerDeal) throws JMSException {
         salerDealsService.addSalerDeal(salerDeal);
         salerDealList.add(salerDeal);
         synchronized (traderDealList){
@@ -50,6 +52,7 @@ public class DealMatcher {
                         salerDealsService.updateSalerDeal(salerDeal);
                         traderDeal.setStatus(StatusCode.TPS_PROCESSED);
                         traderDealsService.updateTraderDeal(traderDeal);
+                        obVerify.getOBVerifyMsg(salerDeal, traderDeal);
                         salerDealList.remove(salerDeal);
                         traderDealList.remove(traderDeal);
                         // if the price match, return the trader deal
@@ -69,7 +72,7 @@ public class DealMatcher {
         return null;
     }
 
-    public SalerDeal isMatch(TraderDeal traderDeal) {
+    public SalerDeal isMatch(TraderDeal traderDeal) throws JMSException {
         traderDealsService.addTraderDeal(traderDeal);
         traderDealList.add(traderDeal);
         synchronized (salerDealList){
@@ -82,6 +85,7 @@ public class DealMatcher {
                         traderDealsService.updateTraderDeal(traderDeal);
                         salerDeal.setStatus(StatusCode.TPS_PROCESSED);
                         salerDealsService.updateSalerDeal(salerDeal);
+                        obVerify.getOBVerifyMsg(salerDeal, traderDeal);
                         salerDealList.remove(salerDeal);
                         traderDealList.remove(traderDeal);
                         // if the price match, return the saler deal

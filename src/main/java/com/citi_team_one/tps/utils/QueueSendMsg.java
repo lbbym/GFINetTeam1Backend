@@ -25,9 +25,9 @@ public class QueueSendMsg {
     }
 
     private void sendObj(Session session, Object obj, String name) throws JMSException {
-        Destination queue = new ActiveMQQueue(name);//分装消息的目的标示
+        Destination queue = new ActiveMQQueue(name);
         MessageProducer msgProducer = session.createProducer(queue);
-        ObjectMessage objMsg=session.createObjectMessage((Serializable) obj);//发送对象时必须让该对象实现serializable接口
+        ObjectMessage objMsg=session.createObjectMessage((Serializable) obj);
         MessageProducer msgPorducer =session.createProducer(queue);
         msgPorducer.send(objMsg);
         System.out.println("send message finished");
