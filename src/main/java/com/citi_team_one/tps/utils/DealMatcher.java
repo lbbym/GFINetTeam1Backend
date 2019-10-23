@@ -39,6 +39,7 @@ public class DealMatcher {
         return singletonDealMatcher;
     }
 
+
     public TraderDeal isMatch(SalerDeal salerDeal) throws JMSException {
         salerDealsService.addSalerDeal(salerDeal);
         salerDealList.add(salerDeal);
@@ -66,11 +67,13 @@ public class DealMatcher {
                 }
             }
         }
+        //TODO version number issue! this need to be the first
         salerDeal.setStatus(StatusCode.PENDING);
         salerDealsService.updateSalerDeal(salerDeal);
         // if the deal is still pending, return null
         return null;
     }
+
 
     public SalerDeal isMatch(TraderDeal traderDeal) throws JMSException {
         traderDealsService.addTraderDeal(traderDeal);

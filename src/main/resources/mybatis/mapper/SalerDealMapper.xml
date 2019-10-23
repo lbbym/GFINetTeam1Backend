@@ -34,7 +34,15 @@
         from sale_deals
     </select>
 
-    <insert id="doAddSalerDeal" parameterType="com.citi_team_one.tps.model.SalerDeal"  useGeneratedKeys="true" keyProperty="id" keyColumn="id">
+    <select id="doFindByOrderId" resultMap="SalerDealResultMap">
+        select
+        <include refid="SalerDeal_Column_List" />
+        from sale_deals
+        where order_id = #{orderId,jdbcType=INTEGER}
+    </select>
+
+
+    <insert id="doAddSalerDeal" parameterType="com.citi_team_one.tps.model.SalerDeal"  useGeneratedKeys="true" keyProperty="txnI" keyColumn="txn_i">
         insert into sale_deals
         <trim prefix="(" suffix=")" suffixOverrides=",">
             <if test="txnI != null">

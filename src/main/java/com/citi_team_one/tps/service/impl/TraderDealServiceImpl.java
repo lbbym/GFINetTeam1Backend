@@ -20,21 +20,33 @@ public class TraderDealServiceImpl implements TraderDealsService {
     @Autowired
     private SalerDealsService salerDealsService;
 
+
+    @Override
+    public TraderDeal findById(Integer id) {
+        return traderDealMapper.selectByPrimaryKey(id);
+    }
+
+    @Override
+    public List<TraderDeal> findAllBySenderId(Integer senderId) {
+        return  traderDealMapper.doFindAllBySenderId(senderId);
+    }
+
     @Override
     public List<TraderDeal> findAllInPages(Integer pageNum, Integer perPage) {
-        PageHelper.startPage(pageNum,perPage);
+        PageHelper.startPage(pageNum, perPage);
         return traderDealMapper.doFindAll();
     }
 
     @Override
     public TraderDeal addTraderDeal(TraderDeal newDeal) {
-        newDeal.setId(null);
+        newDeal.setTxnI(null);
         traderDealMapper.doAddTraderDeal(newDeal);
         return newDeal;
     }
 
     @Override
-    public TraderDeal updateTraderDeal(TraderDeal updatedDeal){
+    public TraderDeal updateTraderDeal(TraderDeal updatedDeal) {
+        updatedDeal.setInterVNum(updatedDeal.getInterVNum() + 1);
         traderDealMapper.doUpdateTraderDeal(updatedDeal);
         return updatedDeal;
     }
