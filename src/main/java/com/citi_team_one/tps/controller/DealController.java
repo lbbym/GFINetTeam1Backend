@@ -92,16 +92,11 @@ public class DealController {
         traderDeal.setVer(1);
         traderDeal.setInterVNum(1);
         //TODO send it to Matcher and immediately return a deal with StatusCode.PENDING
-
-        SalerDeal salerDeal = DealMatcher.getInstance().getMatchedDeal(traderDeal);
-//        if (salerDeal != null && salerDeal.getStatus().equals(StatusCode.TPS_PROCESSED)) {
-//            //already TPS_PROCESSED, we send it to BO
-//            salerDeal.setStatus(BO ? StatusCode.ACCEPTED : StatusCode.REJECTED);
-//            traderDeal.setStatus(BO ? StatusCode.ACCEPTED : StatusCode.REJECTED);
-//
-//            salerDealsService.updateSalerDeal(salerDeal);
-//            traderDealsService.updateTraderDeal(traderDeal);
-//        }
+        try {
+            DealMatcher.getInstance().isMatch(traderDeal);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         return traderDeal;
     }
 
@@ -123,15 +118,10 @@ public class DealController {
         salerDeal.setVer(1);
         salerDeal.setInterVNum(1);
         //TODO send it to Matcher and immediately return a deal with StatusCode.PENDING
-
-        TraderDeal traderDeal = DealMatcher.getInstance().getMatchedDeal(salerDeal);
-        if (traderDeal != null && traderDeal.getStatus().equals(StatusCode.TPS_PROCESSED)) {
-            //already TPS_PROCESSED, we send it to BO
-            salerDeal.setStatus(BO ? StatusCode.ACCEPTED : StatusCode.REJECTED);
-            traderDeal.setStatus(BO ? StatusCode.ACCEPTED : StatusCode.REJECTED);
-
-            salerDealsService.updateSalerDeal(salerDeal);
-            traderDealsService.updateTraderDeal(traderDeal);
+        try {
+            DealMatcher.getInstance().isMatch(salerDeal);
+        } catch (Exception e) {
+            e.printStackTrace();
         }
         return salerDeal;
     }

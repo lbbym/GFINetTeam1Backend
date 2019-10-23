@@ -9,8 +9,7 @@ DROP TABLE  IF EXISTS role;
 DROP TABLE  IF EXISTS cusip_user;
 
 CREATE TABLE IF NOT EXISTS `trader_deals`(
-    `id` INT UNSIGNED AUTO_INCREMENT,
-    `txn_i` int NOT NULL,
+    `txn_i` INT UNSIGNED AUTO_INCREMENT,
     `product_id` VARCHAR(50) NOT NULL,
     `volume` INT UNSIGNED NOT NULL,
     `price` DOUBLE NOT NULL,
@@ -26,12 +25,12 @@ CREATE TABLE IF NOT EXISTS `trader_deals`(
     `status` VARCHAR(20) NOT NULL,
     `reject_code` INT UNSIGNED,
     `reject_reason` VARCHAR(50),
-     PRIMARY KEY (`id`)
+    `trade_orig_sys` VARCHAR(50),
+     PRIMARY KEY (`txn_i`)
 )ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 CREATE TABLE IF NOT EXISTS `sale_deals`(
-    `id` INT UNSIGNED AUTO_INCREMENT,
-    `txn_i` int NOT NULL,
+    `txn_i` INT UNSIGNED AUTO_INCREMENT,
     `product_id` VARCHAR(50) NOT NULL,
     `volume` INT UNSIGNED NOT NULL,
     `price` DOUBLE NOT NULL,
@@ -47,7 +46,8 @@ CREATE TABLE IF NOT EXISTS `sale_deals`(
     `status` VARCHAR(20) NOT NULL,
     `reject_code` INT UNSIGNED,
     `reject_reason` VARCHAR(50),
-     PRIMARY KEY (`id`)
+    `trade_orig_sys` VARCHAR(50),
+     PRIMARY KEY (`txn_i`)
 )ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 CREATE TABLE IF NOT EXISTS `product`(

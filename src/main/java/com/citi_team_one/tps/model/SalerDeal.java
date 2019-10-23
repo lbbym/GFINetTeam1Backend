@@ -10,6 +10,7 @@ import java.util.Date;
 @Getter
 @Setter
 public class SalerDeal implements Serializable {
+    private static final long serialVersionUID = 1L;
     private Integer id;
     private Integer txnI;
     private String productId;
