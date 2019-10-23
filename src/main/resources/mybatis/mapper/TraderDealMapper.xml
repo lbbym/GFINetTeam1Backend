@@ -40,7 +40,12 @@
         from trader_deals
         where order_id = #{orderId,jdbcType=INTEGER}
     </select>
-
+    <select id="doFindAllBySenderId" resultMap="TraderDealResultMap">
+        select
+        <include refid="TraderDeal_Column_List" />
+        from trader_deals
+        where trade_sender = #{senderId,jdbcType=INTEGER}
+    </select>
 
     <insert id="doAddTraderDeal" parameterType="com.citi_team_one.tps.model.TraderDeal"  useGeneratedKeys="true" keyProperty="txnI" keyColumn="txn_i">
         insert into trader_deals
