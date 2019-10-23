@@ -9,7 +9,7 @@
             <arg column="volume" javaType="java.lang.Integer" jdbcType="INTEGER" />
             <arg column="price" javaType="java.lang.Double" jdbcType="DOUBLE" />
             <arg column="notional_principal" javaType="java.lang.Double" jdbcType="DOUBLE" />
-            <arg column="trade_orig_sys" javaType="java.lang.String" jdbcType="VARCHAR" />
+            <arg column="order_id" javaType="java.lang.String" jdbcType="VARCHAR" />
             <arg column="trade_sender" javaType="java.lang.Integer" jdbcType="INTEGER" />
             <arg column="trade_reciver" javaType="java.lang.Integer" jdbcType="INTEGER" />
             <arg column="timestamp" javaType="java.util.Date" jdbcType="TIMESTAMP" />
@@ -23,16 +23,29 @@
         </constructor>
     </resultMap>
     <sql id="TraderDeal_Column_List">
-        id, txn_i, product_id, volume, price, notional_principal, trade_orig_sys, trade_sender,
+        id, txn_i, product_id, volume, price, notional_principal, order_id, trade_sender,
         trade_reciver, timestamp, inter_orig_sys, inter_i, inter_v_num, ver, status, reject_code,
         reject_reason
     </sql>
-
+    <select id="doFindByOrderId" resultMap="TraderDealResultMap">
+        select
+        <include refid="TraderDeal_Column_List" />
+        from trader_deals
+        where order_id = #{orderId,jdbcType=INTEGER}
+    </select>
     <select id="doFindAll" resultMap="TraderDealResultMap">
         select
         <include refid="TraderDeal_Column_List" />
         from trader_deals
     </select>
+
+    <select id="doFindAllBySenderId" resultMap="TraderDealResultMap">
+        select
+        <include refid="TraderDeal_Column_List" />
+        from trader_deals
+        where trade_sender = #{senderId,jdbcType=INTEGER}
+    </select>
+
 
     <insert id="doAddTraderDeal" parameterType="com.citi_team_one.tps.model.TraderDeal"  useGeneratedKeys="true" keyProperty="id" keyColumn="id">
         insert into trader_deals
@@ -56,7 +69,7 @@
                 notional_principal,
             </if>
             <if test="tradeOrigSys != null">
-                trade_orig_sys,
+                order_id,
             </if>
             <if test="tradeSender != null">
                 trade_sender,
@@ -163,7 +176,7 @@
                 notional_principal = #{notionalPrincipal,jdbcType=DOUBLE},
             </if>
             <if test="tradeOrigSys != null">
-                trade_orig_sys = #{tradeOrigSys,jdbcType=VARCHAR},
+                order_id = #{tradeOrigSys,jdbcType=VARCHAR},
             </if>
             <if test="tradeSender != null">
                 trade_sender = #{tradeSender,jdbcType=INTEGER},
@@ -212,7 +225,7 @@
     <insert id="insert" parameterType="com.citi_team_one.tps.model.TraderDeal">
         insert into trader_deals (id, txnl, product_id,
         volume, price, notional_principal,
-        trade_orig_sys, trade_dest_sys, timestamp,
+        order_id, trade_dest_sys, timestamp,
         inter_orig_sys, inter_i, inter_v_num,
         ver, status, reject_code,
         reject_reason)
@@ -248,7 +261,7 @@
                 notional_principal,
             </if>
             <if test="tradeOrigSys != null">
-                trade_orig_sys,
+                order_id,
             </if>
             <if test="tradeDestSys != null">
                 trade_dest_sys,
@@ -348,7 +361,7 @@
                 notional_principal = #{notionalPrincipal,jdbcType=DOUBLE},
             </if>
             <if test="tradeOrigSys != null">
-                trade_orig_sys = #{tradeOrigSys,jdbcType=VARCHAR},
+                order_id = #{tradeOrigSys,jdbcType=VARCHAR},
             </if>
             <if test="tradeDestSys != null">
                 trade_dest_sys = #{tradeDestSys,jdbcType=INTEGER},
@@ -387,7 +400,7 @@
         volume = #{volume,jdbcType=INTEGER},
         price = #{price,jdbcType=DOUBLE},
         notional_principal = #{notionalPrincipal,jdbcType=DOUBLE},
-        trade_orig_sys = #{tradeOrigSys,jdbcType=VARCHAR},
+        order_id = #{tradeOrigSys,jdbcType=VARCHAR},
         trade_dest_sys = #{tradeDestSys,jdbcType=INTEGER},
         timestamp = #{timestamp,jdbcType=TIMESTAMP},
         inter_orig_sys = #{interOrigSys,jdbcType=VARCHAR},

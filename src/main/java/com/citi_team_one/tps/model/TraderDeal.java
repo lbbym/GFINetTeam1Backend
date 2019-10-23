@@ -15,7 +15,7 @@ public class TraderDeal implements Serializable {
     private Integer volume;
     private Double price;
     private Double notionalPrincipal;
-    private String tradeOrigSys;
+    private String orderId;
     private Integer tradeSender;
     private Integer tradeReciver;
     private Date timestamp;
@@ -26,14 +26,14 @@ public class TraderDeal implements Serializable {
     private String status;
     private Integer rejectCode;
     private String rejectReason;
-    public TraderDeal(Integer id, Integer txnI, String productId, Integer volume, Double price, Double notionalPrincipal, String tradeOrigSys, Integer tradeSender, Integer tradeReciver, Date timestamp, String interOrigSys, Integer interI, Integer interVNum, Integer ver, String status, Integer rejectCode, String rejectReason) {
+    public TraderDeal(Integer id, Integer txnI, String productId, Integer volume, Double price, Double notionalPrincipal, String orderId, Integer tradeSender, Integer tradeReciver, Date timestamp, String interOrigSys, Integer interI, Integer interVNum, Integer ver, String status, Integer rejectCode, String rejectReason) {
         this.id = id;
         this.txnI = txnI;
         this.productId = productId;
         this.volume = volume;
         this.price = price;
         this.notionalPrincipal = notionalPrincipal;
-        this.tradeOrigSys = tradeOrigSys;
+        this.orderId = orderId;
         this.tradeSender = tradeSender;
         this.tradeReciver = tradeReciver;
         this.timestamp = timestamp;
@@ -58,7 +58,7 @@ public class TraderDeal implements Serializable {
                 ", volume=" + volume +
                 ", price=" + price +
                 ", notionalPrincipal=" + notionalPrincipal +
-                ", tradeOrigSys='" + tradeOrigSys + '\'' +
+                ", orderId='" + orderId + '\'' +
                 ", tradeSender=" + tradeSender +
                 ", tradeReciver=" + tradeReciver +
                 ", timestamp=" + timestamp +
