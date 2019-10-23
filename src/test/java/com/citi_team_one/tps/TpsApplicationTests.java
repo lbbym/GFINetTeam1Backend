@@ -1,12 +1,11 @@
 package com.citi_team_one.tps;
 
-import com.citi_team_one.tps.model.CusipUser;
-import com.citi_team_one.tps.model.ResponseBean;
-import com.citi_team_one.tps.model.User;
+import com.citi_team_one.tps.model.*;
 import com.citi_team_one.tps.service.CusipUserService;
 import com.citi_team_one.tps.service.SalerDealsService;
 import com.citi_team_one.tps.service.TraderDealsService;
 import com.citi_team_one.tps.service.UserService;
+import com.citi_team_one.tps.utils.BOVerify;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -99,6 +98,23 @@ class TpsApplicationTests {
 //        assertEquals("id", 1.1, cusipUserService.findProductsByTraderId(1).get(0).getCoupon());
     }
 
+
+    @Test
+    void testBO() {
+        SalerDeal salerDeal = new SalerDeal();
+        salerDeal.setTxnI(1);
+        salerDeal.setPrice((double) 199);
+
+        TraderDeal traderDeal = new TraderDeal();
+        traderDeal.setTxnI(1);
+
+        BOVerify BOVerify = new BOVerify();
+        try {
+            BOVerify.getBOVerifyMsg(salerDeal, traderDeal);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 
     @Test
     void contextLoads() {

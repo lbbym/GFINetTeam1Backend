@@ -35,7 +35,7 @@ public class SalerDealServiceImpl implements SalerDealsService {
 
     @Override
     public SalerDeal addSalerDeal(SalerDeal newDeal) {
-        newDeal.setId(null);
+        newDeal.setTxnI(null);
         salerDealMapper.doAddSalerDeal(newDeal);
         return newDeal;
     }
