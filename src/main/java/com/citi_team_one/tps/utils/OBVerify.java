@@ -11,7 +11,7 @@ public class OBVerify {
         qsg.sendMsg(salerDeal);
 
         QueueAcceptMsg qam=new QueueAcceptMsg();
-        qam.acceptMsg(salerDeal);
+        qam.acceptMsg(salerDeal, traderDeal);
 
         return null;
     }
