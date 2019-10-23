@@ -34,11 +34,13 @@ SW可简化为只要有一个Ticket Entry Window + Submit选项 （即Import Tra
 
 和其他表的关联最低要求：输入目标Sys(TradeDestSys)后能显示当前Client Name，或者输入后能自动fetch后续信息
 
-* Sign In / Sign Up时均输入User昵称和密码，Backend自动将User ID绑定到User昵称上
+* Sign In / Sign Up时均输入User邮箱和密码，Backend自动将User ID绑定到User邮箱上
 
 #### 2.2.1 users
 
-id, name, password, role_id
+id, email(name), password, role_id
+
+* id - Auto Increment
 
 #### 2.2.2 roles
 
@@ -48,33 +50,35 @@ role_id, role
 
 #### 2.3.1 trader_deals
 
-TxnI, Cusip(Product_ID), Volume, Price, Notional_Principal, TradeOrigSys, Trade_Sender, Trade_Receiver, Timestamp, InterOrigSys, InterI, InterVNum, Ver(Version), Status, RejectCode, RejectReason
+TxnI, Cusip(Product_ID), Volume, Price, Notional_Principal, Order_ID, Trade_Receiver, Timestamp, InterOrigSys, InterI, InterVNum, Ver(Version), Status, RejectCode, RejectReason, TradeOrigSys
 
 * 新增
   1. Notional_Principal -  名义本金，即Volume * Price
-  2. TradeOrigSys - 值恒为"TW"，类型为VarChar
+  2. Order_ID - Matching Order ID
   3. Trade_Sender - 记录Trader Leg的Source用户ID (e.g. T1111)，类型为Int(10)
   4. Trade_Receiver - 记录Trader Leg的Destination用户ID (e.g. S2222)，类型为Int(10)
   5. Timestamp - 当前TL记录的时间戳
+  6. TradeOrigSys - 值恒为"TW"，类型为VarChar
 
 PK: TxnI
 
 FK: users - id
 
-* Elements displayed on the front end
+* Elements displayed on the front end.
 
-  TxnI, Cusip(Product_ID), Volume, Price, Notional_Principal, (Timestamp),  Ver, Status
+  TxnI, Cusip(Product_ID), Volume, Price, Notional_Principal, Receiver, (Timestamp),  Ver, Status
 
 #### 2.3.2 sales_deals
 
-TxnI, Cusip(Product_ID), Volume, Price, Notional_Principal, TradeOrigSys, Trade_Sender, Trade_Receiver, Timestamp, InterOrigSys, InterI, InterVNum, Ver(Version), Status, RejectCode, RejectReason
+id, TxnI, Cusip(Product_ID), Volume, Price, Notional_Principal, Order_ID, Trade_Sender, Trade_Receiver, Timestamp, InterOrigSys, InterI, InterVNum, Ver(Version), Status, RejectCode, RejectReason, TradeOrigSys
 
 * 新增
   1. Notional_Principal -  名义本金，即Volume * Price
-  2. TradeOrigSys - 值恒为"SW"，类型为VarChar
+  2. Order_ID - Matching Order ID
   3. Trade_Sender - 记录Sales Leg的Source用户ID (e.g. S1111)，类型为Int(10)
   4. Trade_Receiver - 记录Sales Leg的Destination用户ID (e.g. T2222)，类型为Int(10)
   5. Timestamp - 当前SL记录的时间戳
+  6. TradeOrigSys - 值恒为"SW"，类型为VarChar
 
 PK: TxnI
 
@@ -82,7 +86,13 @@ FK: users - id
 
 * Elements displayed on the front end
 
-  TxnI, Cusip(Product_ID), Volume, Price, Notional_Principal, (Timestamp),  Ver, Status
+  TxnI, Cusip(Product_ID), Volume, Price, Notional_Principal, Receiver, (Timestamp),  Ver, Status
+
+#### 2.3.3 cusip_user
+
+id, user_ip, cusip
+
+* Many-Many关系表
 
 ## 3 Trade Workstation概要
 
@@ -148,11 +158,13 @@ Trader & Sales复用同一登录/创建界面，根据用户名关键字判断�
 
       * 本质：操作产生了数据的变化（新建 / 修改等）
 
-   4. InterI - 记录Interaction次数
+   4. InterI
 
+      最后的Interaction发起方
+
+   5. InterVNum - 记录Interaction次数
+   
       I1V1 Requested -> Pending -> TPS Processed -> Status
-
-   5. InterVNum
    
 4. Product表是否仅作数据储存？ 否
 
