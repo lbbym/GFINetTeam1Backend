@@ -39,8 +39,8 @@ public class DealMatcher {
         return singletonDealMatcher;
     }
 
-
     public TraderDeal isMatch(SalerDeal salerDeal) throws JMSException {
+        salerDeal.setStatus(StatusCode.PENDING);
         salerDealsService.addSalerDeal(salerDeal);
         salerDealList.add(salerDeal);
         synchronized (traderDealList){
@@ -67,15 +67,12 @@ public class DealMatcher {
                 }
             }
         }
-        //TODO version number issue! this need to be the first
-        salerDeal.setStatus(StatusCode.PENDING);
-        salerDealsService.updateSalerDeal(salerDeal);
         // if the deal is still pending, return null
         return null;
     }
 
-
     public SalerDeal isMatch(TraderDeal traderDeal) throws JMSException {
+        traderDeal.setStatus(StatusCode.PENDING);
         traderDealsService.addTraderDeal(traderDeal);
         traderDealList.add(traderDeal);
         synchronized (salerDealList){
@@ -102,8 +99,6 @@ public class DealMatcher {
                 }
             }
         }
-        traderDeal.setStatus(StatusCode.PENDING);
-        traderDealsService.updateTraderDeal(traderDeal);
         // if the deal is still pending, return null
         return null;
     }

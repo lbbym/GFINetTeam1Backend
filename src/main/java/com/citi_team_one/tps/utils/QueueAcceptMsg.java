@@ -19,7 +19,7 @@ public class QueueAcceptMsg implements MessageListener {
 
     public static final String user="";
     public static final String pwd="";
-    public static final String url = "tcp://localhost:61616";
+    public static final String url = "tcp://47.100.138.62:61616";
     public static final String name = "queue.msgTxt";
     boolean ifReply=false;
     String stringRes=null;
