@@ -49,6 +49,10 @@ public class DealMatcher {
                 if(salerDeal.getTradeSender().equals(traderDeal.getTradeReciver()) &&
                    salerDeal.getProductId().equals(traderDeal.getProductId()) &&
                    salerDeal.getVolume().equals(traderDeal.getVolume())){
+                    // set order_id when match
+                    String randomString = UUID.randomUUID().toString();
+                    traderDeal.setOrderId(randomString);
+                    salerDeal.setOrderId(randomString);
                     if(salerDeal.getPrice().equals(traderDeal.getPrice())){
                         salerDeal.setStatus(StatusCode.TPS_PROCESSED);
                         salerDealsService.updateSalerDeal(salerDeal);
@@ -60,7 +64,9 @@ public class DealMatcher {
                         // if the price match, return the trader deal
                         return traderDeal;
                     } else {
+                        traderDeal.setStatus(StatusCode.PRICE_UNMATCHED);
                         salerDeal.setStatus(StatusCode.PRICE_UNMATCHED);
+                        traderDealsService.updateTraderDeal(traderDeal);
                         salerDealsService.updateSalerDeal(salerDeal);
                         // if the price dont match, return the trader deal
                         return traderDeal;
@@ -81,7 +87,7 @@ public class DealMatcher {
                 if(traderDeal.getTradeSender().equals(salerDeal.getTradeReciver()) &&
                    traderDeal.getProductId().equals(salerDeal.getProductId()) &&
                    traderDeal.getVolume().equals(salerDeal.getVolume())){
-                    // set order_id
+                    // set order_id when match
                     String randomString = UUID.randomUUID().toString();
                     traderDeal.setOrderId(randomString);
                     salerDeal.setOrderId(randomString);
