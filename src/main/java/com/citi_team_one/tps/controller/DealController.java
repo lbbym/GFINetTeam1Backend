@@ -38,7 +38,7 @@ public class DealController {
 
     @RequestMapping(value = "/traderDeal", method = RequestMethod.POST)
     public TraderDeal addTraderDeal(TraderDeal traderDeal) {
-        SalerDeal salerDeal = DealMatcher.getInstance().isMatch(traderDeal);
+        SalerDeal salerDeal = null;// DealMatcher.getInstance().isMatch(traderDeal);
         if (salerDeal.getStatus().equals(StatusCode.TPS_PROCESSED)) {
             //already TPS_PROCESSED, we send it to BO
             salerDeal.setStatus(BO ? StatusCode.ACCEPTED : StatusCode.REJECTED);
@@ -61,7 +61,7 @@ public class DealController {
 
     @RequestMapping(value = "/salerDeal", method = RequestMethod.POST)
     public SalerDeal addSalerDeal(SalerDeal salerDeal) {
-        TraderDeal traderDeal = DealMatcher.getInstance().isMatch(salerDeal);
+        TraderDeal traderDeal = null;//DealMatcher.getInstance().isMatch(salerDeal);
         if (traderDeal.getStatus().equals(StatusCode.TPS_PROCESSED)) {
             //already TPS_PROCESSED, we send it to BO
             salerDeal.setStatus(BO ? StatusCode.ACCEPTED : StatusCode.REJECTED);
