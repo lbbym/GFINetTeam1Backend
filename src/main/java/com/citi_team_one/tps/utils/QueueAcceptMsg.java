@@ -54,7 +54,7 @@ public class QueueAcceptMsg implements MessageListener {
 
         Queue queue = new ActiveMQQueue(name);
         MessageConsumer consumer = session.createConsumer(queue);
-        consumer.setMessageListener(new QueueAcceptMsg(this.salerDeal,this.traderDeal));
+        consumer.setMessageListener(new QueueAcceptMsg(this.salerDeal, this.traderDeal));
     }
 
     @Override
@@ -66,16 +66,24 @@ public class QueueAcceptMsg implements MessageListener {
                 System.out.println("accepted text message:" + text.getText());
                 //salerDeal.setStatus();
                 //update the DB
-                if (text.getText().equals("accept")) {
+                if (text.getText().substring(0, 6).equals("accept")) {
                     salerDeal.setStatus(StatusCode.ACCEPTED);
                     traderDeal.setStatus(StatusCode.ACCEPTED);
                     ServiceUtil.serviceUtil.salerDealsService.updateSalerDeal(salerDeal);
                     ServiceUtil.serviceUtil.traderDealsService.updateTraderDeal(traderDeal);
-                } else if (text.getText().equals("reject")) {
+                } else if (text.getText().substring(0, 6).equals("reject")) {
                     salerDeal.setStatus(StatusCode.REJECTED);
                     traderDeal.setStatus(StatusCode.REJECTED);
-                     ServiceUtil.serviceUtil.salerDealsService.updateSalerDeal(salerDeal);
-                     ServiceUtil.serviceUtil.traderDealsService.updateTraderDeal(traderDeal);
+                    if (text.getText().substring(9).equals("100")) {
+                        salerDeal.setRejectCode(100);
+                        salerDeal.setRejectReason("STALE_DATA");
+                    }
+                    if (text.getText().substring(9).equals("200")) {
+                        salerDeal.setRejectCode(200);
+                        salerDeal.setRejectReason("INVALID_REQUEST");
+                    }
+                    ServiceUtil.serviceUtil.salerDealsService.updateSalerDeal(salerDeal);
+                    ServiceUtil.serviceUtil.traderDealsService.updateTraderDeal(traderDeal);
                 }
 
             } catch (JMSException e) {
