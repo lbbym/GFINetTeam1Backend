@@ -1,11 +1,11 @@
 package com.citi_team_one.tps.model;
 
 public enum RejectCode {
-    STALE_DATA(),INVALID_REQUEST();
+    STALE_DATA(), INVALID_REQUEST();
 
     private String rejectReason;
 
-    private RejectCode(){
+    private RejectCode() {
         setRejectReason("NA");
     }
 

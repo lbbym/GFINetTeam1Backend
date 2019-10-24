@@ -22,10 +22,11 @@ public class ExceptionController {
     public ResponseBean handle401(ShiroException e) {
         return new ResponseBean(401, e.getMessage(), null);
     }
+
     // 捕捉shiro的异常
     @ResponseStatus(HttpStatus.UNAUTHORIZED)
     @ExceptionHandler(org.apache.shiro.authz.UnauthorizedException.class)
-    public ResponseBean handleAuthenticationException (ShiroException e) {
+    public ResponseBean handleAuthenticationException(ShiroException e) {
         System.out.println("!!!!!!!!!!!!!!");
         return new ResponseBean(401, e.getMessage(), null);
     }

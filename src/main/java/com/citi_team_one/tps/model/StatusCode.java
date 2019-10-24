@@ -1,9 +1,10 @@
 package com.citi_team_one.tps.model;
 
 public enum StatusCode {
-    REQUESTED(1), PENDING(2),
-    TPS_PROCESSED(3), PRICE_UNMATCHED(3),
-    ACCEPTED(4), REJECTED(4), HELD(4);
+    REQUESTED(0),
+    PENDING(1), PRICE_UNMATCHED(1),
+    TPS_PROCESSED(2), HELD(2),
+    ACCEPTED(3), REJECTED(3);
 
     private Integer statusVersionNum;
     private RejectCode rejectCode;

@@ -8,17 +8,17 @@ import javax.jms.*;
 import java.io.Serializable;
 
 public class QueueSendMsg {
-    public static final String user="";
-    public static final String pwd="";
-//    public static final String url = "tcp://172.17.12.252:61616";
-    public static final String url = "tcp://127.0.0.1:61616";
+    public static final String user = "";
+    public static final String pwd = "";
+        public static final String url = "tcp://172.17.12.252:61616";
+//    public static final String url = "tcp://127.0.0.1:61616";
 
     public static final String name = "queue.msgObj";
+
     public void sendMsg(SalerDeal salerDeal) throws JMSException {
         ConnectionFactory connectionfactory = new ActiveMQConnectionFactory(url);
-//        connectionfactory = new ActiveMQConnectionFactory(user,pwd,url);
         Connection connection = connectionfactory.createConnection();
-        Session session =connection.createSession(false,Session.AUTO_ACKNOWLEDGE );
+        Session session = connection.createSession(false, Session.AUTO_ACKNOWLEDGE);
         QueueSendMsg qs = new QueueSendMsg();
 
         qs.sendObj(session, salerDeal, name);
@@ -29,8 +29,8 @@ public class QueueSendMsg {
     private void sendObj(Session session, Object obj, String name) throws JMSException {
         Destination queue = new ActiveMQQueue(name);
         MessageProducer msgProducer = session.createProducer(queue);
-        ObjectMessage objMsg=session.createObjectMessage((Serializable) obj);
-        MessageProducer msgPorducer =session.createProducer(queue);
+        ObjectMessage objMsg = session.createObjectMessage((Serializable) obj);
+        MessageProducer msgPorducer = session.createProducer(queue);
         msgPorducer.send(objMsg);
         System.out.println("send message finished");
     }

@@ -3,25 +3,16 @@ package com.citi_team_one.tps.utils;
 import com.citi_team_one.tps.model.SalerDeal;
 import com.citi_team_one.tps.model.StatusCode;
 import com.citi_team_one.tps.model.TraderDeal;
-import com.citi_team_one.tps.service.SalerDealsService;
-import com.citi_team_one.tps.service.TraderDealsService;
 import org.apache.activemq.ActiveMQConnectionFactory;
 import org.apache.activemq.command.ActiveMQQueue;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
 
 import javax.jms.*;
 
 public class QueueAcceptMsg implements MessageListener {
-//    @Autowired
-//    private SalerDealsService salerDealsService;
-//    @Autowired
-//    private TraderDealsService traderDealsService;
-
     public static final String user = "";
     public static final String pwd = "";
-    //    public static final String url = "tcp://172.17.12.252:61616";
-    public static final String url = "tcp://127.0.0.1:61616";
+            public static final String url = "tcp://172.17.12.252:61616";
+//    public static final String url = "tcp://127.0.0.1:61616";
 
     public static final String name = "queue.msgTxt";
     boolean ifReply = false;
@@ -39,11 +30,8 @@ public class QueueAcceptMsg implements MessageListener {
     }
 
     public void acceptMsg(SalerDeal salerDeal, TraderDeal traderDeal) throws JMSException {
-//        this.salerDeal = salerDeal;
-//        this.traderDeal = traderDeal;
         if (connectionfactory == null) {
             connectionfactory = new ActiveMQConnectionFactory(url);
-//            connectionfactory = new ActiveMQConnectionFactory(user,pwd,url);
             connectionfactory.setTrustAllPackages(true);
         }
         if (connection == null) {
@@ -64,7 +52,6 @@ public class QueueAcceptMsg implements MessageListener {
             try {
                 stringRes = text.getText();
                 System.out.println("accepted text message:" + text.getText());
-                //salerDeal.setStatus();
                 //update the DB
                 if (text.getText().substring(0, 6).equals("accept")) {
                     salerDeal.setStatus(StatusCode.ACCEPTED);

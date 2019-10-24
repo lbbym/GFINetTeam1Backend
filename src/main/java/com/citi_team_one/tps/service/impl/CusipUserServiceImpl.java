@@ -13,6 +13,7 @@ import java.util.List;
 public class CusipUserServiceImpl implements CusipUserService {
     @Autowired
     private CusipUserMapper cusipUserMapper;
+
     @Override
     public CusipUser addCusipUser(CusipUser cusipUser) {
         cusipUserMapper.insert(cusipUser);

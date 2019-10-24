@@ -24,7 +24,7 @@ public class AuthController {
     @PostMapping("/login")
     public ResponseBean login(@RequestParam("name") String username,
                               @RequestParam("pwd") String password) {
-        logger.info(" login: " + username + " " + password);
+        logger.info("[LOGIN]" + username + " " + password);
         User user = userService.findByName(username);
         if (user.getPwd().equals(password)) {
             JSONObject json_result = new JSONObject(true);

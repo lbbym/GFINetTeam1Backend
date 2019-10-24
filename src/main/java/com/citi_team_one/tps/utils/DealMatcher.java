@@ -46,11 +46,18 @@ public class DealMatcher {
             salerDeal.setStatus(StatusCode.PENDING);
             salerDealsService.addSalerDeal(salerDeal);
             salerDealList.add(salerDeal);
+
         } else {
             //this deal is here by updating
             salerDeal.setStatus(StatusCode.PENDING);
             salerDealsService.updateSalerDeal(salerDeal);
+            for (SalerDeal s : salerDealList) {
+                if (s.getTxnI().equals(salerDeal.getTxnI())) {
+                    s.setPrice(salerDeal.getPrice());
+                }
+            }
         }
+
         synchronized (traderDealList) {
             for (TraderDeal traderDeal : traderDealList) {
                 if (salerDeal.getTradeSender().equals(traderDeal.getTradeReciver()) &&
@@ -75,6 +82,8 @@ public class DealMatcher {
                         salerDeal.setStatus(StatusCode.PRICE_UNMATCHED);
                         traderDealsService.updateTraderDeal(traderDeal);
                         salerDealsService.updateSalerDeal(salerDeal);
+//                        salerDealList.remove(salerDeal);
+//                        traderDealList.remove(traderDeal);
                         // if the price dont match, return the trader deal
                         return traderDeal;
                     }
@@ -98,7 +107,13 @@ public class DealMatcher {
             //this deal is here by updating
             traderDeal.setStatus(StatusCode.PENDING);
             traderDealsService.updateTraderDeal(traderDeal);
+            for (TraderDeal t : traderDealList) {
+                if (t.getTxnI().equals(traderDeal.getTxnI())) {
+                    t.setPrice(traderDeal.getPrice());
+                }
+            }
         }
+
         synchronized (salerDealList) {
             for (SalerDeal salerDeal : salerDealList) {
                 if (traderDeal.getTradeSender().equals(salerDeal.getTradeReciver()) &&
@@ -123,6 +138,8 @@ public class DealMatcher {
                         salerDeal.setStatus(StatusCode.PRICE_UNMATCHED);
                         traderDealsService.updateTraderDeal(traderDeal);
                         salerDealsService.updateSalerDeal(salerDeal);
+//                        salerDealList.remove(salerDeal);
+//                        traderDealList.remove(traderDeal);
                         // if the price dont match, return the trader deal
                         return salerDeal;
                     }

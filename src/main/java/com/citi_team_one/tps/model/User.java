@@ -14,7 +14,7 @@ public class User implements Serializable {
     private String name;
     private String pwd;
     private Integer roleId;
-    
+
 
     public User(Integer id, String name, String pwd, Integer roleId) {
         this.id = id;

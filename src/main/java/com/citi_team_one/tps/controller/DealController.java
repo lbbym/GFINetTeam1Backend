@@ -3,7 +3,6 @@ package com.citi_team_one.tps.controller;
 
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
-import com.citi_team_one.tps.auth.JWTUtil;
 import com.citi_team_one.tps.model.*;
 import com.citi_team_one.tps.service.CusipUserService;
 import com.citi_team_one.tps.service.ProductService;
@@ -11,7 +10,6 @@ import com.citi_team_one.tps.service.SalerDealsService;
 import com.citi_team_one.tps.service.TraderDealsService;
 import com.citi_team_one.tps.utils.DealMatcher;
 import com.citi_team_one.tps.utils.StatusUtil;
-import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -66,7 +64,8 @@ public class DealController {
                 String orderId = traderDeal.getOrderId();
                 if (orderId == null) {
                     dealPair.put("salerDeal", null);
-                    productAndItsDeals.put("dealPair", dealPair);
+                    deals.add(dealPair);
+//                    productAndItsDeals.put("dealPair", dealPair);
                     continue;
                 }
                 SalerDeal salerDeal = salerDealsService.findByOrderId(orderId);
@@ -99,7 +98,7 @@ public class DealController {
         traderDeal.setPrice(price);
         traderDeal.setNotionalPrincipal(volume * price);
         traderDeal.setInterI(senderId);
-        traderDeal.setVer(StatusUtil.stastr2int(traderDeal.getStatus()));
+        traderDeal.setVer(StatusUtil.stastr2int(traderDeal.getStatus()) + 1);
         traderDeal.setInterVNum(1);
         traderDeal.setTradeOrigSys("TW");
         traderDeal.setInterOrigSys("TW");
@@ -130,7 +129,7 @@ public class DealController {
         salerDeal.setPrice(price);
         salerDeal.setNotionalPrincipal(volume * price);
         salerDeal.setInterI(senderId);
-        salerDeal.setVer(StatusUtil.stastr2int(salerDeal.getStatus()));
+        salerDeal.setVer(StatusUtil.stastr2int(salerDeal.getStatus()) + 1);
         salerDeal.setInterVNum(1);
         salerDeal.setTradeOrigSys("SW");
         salerDeal.setInterOrigSys("SW");
@@ -154,7 +153,7 @@ public class DealController {
 
         traderDeal.setInterI(traderDeal.getTradeSender());
         traderDeal.setInterOrigSys("TW");
-        traderDeal.setInterVNum(traderDeal.getInterVNum()+1);
+        traderDeal.setInterVNum(traderDeal.getInterVNum() + 1);
         traderDealsService.updateTraderDeal(traderDeal);
         try {
             DealMatcher.getInstance().isMatch(traderDeal);
@@ -176,7 +175,7 @@ public class DealController {
 
         salerDeal.setInterI(salerDeal.getTradeReciver());
         salerDeal.setInterOrigSys("TW");
-        salerDeal.setInterVNum(salerDeal.getInterVNum()+1);
+        salerDeal.setInterVNum(salerDeal.getInterVNum() + 1);
         salerDealsService.updateSalerDeal(salerDeal);
         try {
             DealMatcher.getInstance().isMatch(salerDeal);

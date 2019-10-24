@@ -1,28 +1,28 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.citi_team_one.tps.mapper.SalerDealMapper" >
-    <resultMap id="SalerDealResultMap" type="com.citi_team_one.tps.model.SalerDeal" >
+<mapper namespace="com.citi_team_one.tps.mapper.SalerDealMapper">
+    <resultMap id="SalerDealResultMap" type="com.citi_team_one.tps.model.SalerDeal">
         <constructor>
-            <idArg column="txn_i" javaType="java.lang.Integer" jdbcType="INTEGER" />
-            <arg column="product_id" javaType="java.lang.String" jdbcType="VARCHAR" />
-            <arg column="volume" javaType="java.lang.Integer" jdbcType="INTEGER" />
-            <arg column="price" javaType="java.lang.Double" jdbcType="DOUBLE" />
-            <arg column="notional_principal" javaType="java.lang.Double" jdbcType="DOUBLE" />
-            <arg column="order_id" javaType="java.lang.String" jdbcType="VARCHAR" />
-            <arg column="trade_sender" javaType="java.lang.Integer" jdbcType="INTEGER" />
-            <arg column="trade_reciver" javaType="java.lang.Integer" jdbcType="INTEGER" />
-            <arg column="timestamp" javaType="java.util.Date" jdbcType="TIMESTAMP" />
-            <arg column="inter_orig_sys" javaType="java.lang.String" jdbcType="VARCHAR" />
-            <arg column="inter_i" javaType="java.lang.Integer" jdbcType="INTEGER" />
-            <arg column="inter_v_num" javaType="java.lang.Integer" jdbcType="INTEGER" />
-            <arg column="ver" javaType="java.lang.Integer" jdbcType="INTEGER" />
-            <arg column="status" javaType="java.lang.String" jdbcType="VARCHAR" />
-            <arg column="reject_code" javaType="java.lang.Integer" jdbcType="INTEGER" />
-            <arg column="reject_reason" javaType="java.lang.String" jdbcType="VARCHAR" />
-            <arg column="trade_orig_sys" javaType="java.lang.String" jdbcType="VARCHAR" />
+            <idArg column="txn_i" javaType="java.lang.Integer" jdbcType="INTEGER"/>
+            <arg column="product_id" javaType="java.lang.String" jdbcType="VARCHAR"/>
+            <arg column="volume" javaType="java.lang.Integer" jdbcType="INTEGER"/>
+            <arg column="price" javaType="java.lang.Double" jdbcType="DOUBLE"/>
+            <arg column="notional_principal" javaType="java.lang.Double" jdbcType="DOUBLE"/>
+            <arg column="order_id" javaType="java.lang.String" jdbcType="VARCHAR"/>
+            <arg column="trade_sender" javaType="java.lang.Integer" jdbcType="INTEGER"/>
+            <arg column="trade_reciver" javaType="java.lang.Integer" jdbcType="INTEGER"/>
+            <arg column="timestamp" javaType="java.util.Date" jdbcType="TIMESTAMP"/>
+            <arg column="inter_orig_sys" javaType="java.lang.String" jdbcType="VARCHAR"/>
+            <arg column="inter_i" javaType="java.lang.Integer" jdbcType="INTEGER"/>
+            <arg column="inter_v_num" javaType="java.lang.Integer" jdbcType="INTEGER"/>
+            <arg column="ver" javaType="java.lang.Integer" jdbcType="INTEGER"/>
+            <arg column="status" javaType="java.lang.String" jdbcType="VARCHAR"/>
+            <arg column="reject_code" javaType="java.lang.Integer" jdbcType="INTEGER"/>
+            <arg column="reject_reason" javaType="java.lang.String" jdbcType="VARCHAR"/>
+            <arg column="trade_orig_sys" javaType="java.lang.String" jdbcType="VARCHAR"/>
         </constructor>
     </resultMap>
-    <sql id="SalerDeal_Column_List" >
+    <sql id="SalerDeal_Column_List">
         txn_i, product_id, volume, price, notional_principal, order_id, trade_sender, trade_reciver,
         timestamp, inter_orig_sys, inter_i, inter_v_num, ver, status, reject_code, reject_reason,
         trade_orig_sys
@@ -30,26 +30,27 @@
 
     <select id="doFindAll" resultMap="SalerDealResultMap">
         select
-        <include refid="SalerDeal_Column_List" />
+        <include refid="SalerDeal_Column_List"/>
         from sale_deals
     </select>
 
     <select id="doFindByTxnI" resultMap="SalerDealResultMap">
         select
-        <include refid="SalerDeal_Column_List" />
+        <include refid="SalerDeal_Column_List"/>
         from sale_deals
         where txn_i = #{txnI,jdbcType=INTEGER}
     </select>
 
     <select id="doFindByOrderId" resultMap="SalerDealResultMap">
         select
-        <include refid="SalerDeal_Column_List" />
+        <include refid="SalerDeal_Column_List"/>
         from sale_deals
         where order_id = #{orderId,jdbcType=INTEGER}
     </select>
 
 
-    <insert id="doAddSalerDeal" parameterType="com.citi_team_one.tps.model.SalerDeal"  useGeneratedKeys="true" keyProperty="txnI" keyColumn="txn_i">
+    <insert id="doAddSalerDeal" parameterType="com.citi_team_one.tps.model.SalerDeal" useGeneratedKeys="true"
+            keyProperty="txnI" keyColumn="txn_i">
         insert into sale_deals
         <trim prefix="(" suffix=")" suffixOverrides=",">
             <if test="txnI != null">
@@ -159,7 +160,7 @@
         </trim>
     </insert>
 
-    <update id="doUpdateSalerDeal" parameterType="com.citi_team_one.tps.model.SalerDeal" >
+    <update id="doUpdateSalerDeal" parameterType="com.citi_team_one.tps.model.SalerDeal">
         update sale_deals
         <set>
             <if test="productId != null">

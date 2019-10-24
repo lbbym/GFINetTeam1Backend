@@ -3,23 +3,23 @@
 <mapper namespace="com.citi_team_one.tps.mapper.TraderDealMapper">
     <resultMap id="TraderDealResultMap" type="com.citi_team_one.tps.model.TraderDeal">
         <constructor>
-            <idArg column="txn_i" javaType="java.lang.Integer" jdbcType="INTEGER" />
-            <arg column="product_id" javaType="java.lang.String" jdbcType="VARCHAR" />
-            <arg column="volume" javaType="java.lang.Integer" jdbcType="INTEGER" />
-            <arg column="price" javaType="java.lang.Double" jdbcType="DOUBLE" />
-            <arg column="notional_principal" javaType="java.lang.Double" jdbcType="DOUBLE" />
-            <arg column="order_id" javaType="java.lang.String" jdbcType="VARCHAR" />
-            <arg column="trade_sender" javaType="java.lang.Integer" jdbcType="INTEGER" />
-            <arg column="trade_reciver" javaType="java.lang.Integer" jdbcType="INTEGER" />
-            <arg column="timestamp" javaType="java.util.Date" jdbcType="TIMESTAMP" />
-            <arg column="inter_orig_sys" javaType="java.lang.String" jdbcType="VARCHAR" />
-            <arg column="inter_i" javaType="java.lang.Integer" jdbcType="INTEGER" />
-            <arg column="inter_v_num" javaType="java.lang.Integer" jdbcType="INTEGER" />
-            <arg column="ver" javaType="java.lang.Integer" jdbcType="INTEGER" />
-            <arg column="status" javaType="java.lang.String" jdbcType="VARCHAR" />
-            <arg column="reject_code" javaType="java.lang.Integer" jdbcType="INTEGER" />
-            <arg column="reject_reason" javaType="java.lang.String" jdbcType="VARCHAR" />
-            <arg column="trade_orig_sys" javaType="java.lang.String" jdbcType="VARCHAR" />
+            <idArg column="txn_i" javaType="java.lang.Integer" jdbcType="INTEGER"/>
+            <arg column="product_id" javaType="java.lang.String" jdbcType="VARCHAR"/>
+            <arg column="volume" javaType="java.lang.Integer" jdbcType="INTEGER"/>
+            <arg column="price" javaType="java.lang.Double" jdbcType="DOUBLE"/>
+            <arg column="notional_principal" javaType="java.lang.Double" jdbcType="DOUBLE"/>
+            <arg column="order_id" javaType="java.lang.String" jdbcType="VARCHAR"/>
+            <arg column="trade_sender" javaType="java.lang.Integer" jdbcType="INTEGER"/>
+            <arg column="trade_reciver" javaType="java.lang.Integer" jdbcType="INTEGER"/>
+            <arg column="timestamp" javaType="java.util.Date" jdbcType="TIMESTAMP"/>
+            <arg column="inter_orig_sys" javaType="java.lang.String" jdbcType="VARCHAR"/>
+            <arg column="inter_i" javaType="java.lang.Integer" jdbcType="INTEGER"/>
+            <arg column="inter_v_num" javaType="java.lang.Integer" jdbcType="INTEGER"/>
+            <arg column="ver" javaType="java.lang.Integer" jdbcType="INTEGER"/>
+            <arg column="status" javaType="java.lang.String" jdbcType="VARCHAR"/>
+            <arg column="reject_code" javaType="java.lang.Integer" jdbcType="INTEGER"/>
+            <arg column="reject_reason" javaType="java.lang.String" jdbcType="VARCHAR"/>
+            <arg column="trade_orig_sys" javaType="java.lang.String" jdbcType="VARCHAR"/>
         </constructor>
     </resultMap>
     <sql id="TraderDeal_Column_List">
@@ -30,7 +30,7 @@
 
     <select id="doFindByTxnI" resultMap="TraderDealResultMap">
         select
-        <include refid="TraderDeal_Column_List" />
+        <include refid="TraderDeal_Column_List"/>
         from trader_deals
         where txn_i = #{txnI,jdbcType=INTEGER}
     </select>
@@ -38,24 +38,25 @@
 
     <select id="doFindAll" resultMap="TraderDealResultMap">
         select
-        <include refid="TraderDeal_Column_List" />
+        <include refid="TraderDeal_Column_List"/>
         from trader_deals
     </select>
 
     <select id="doFindByOrderId" resultMap="TraderDealResultMap">
         select
-        <include refid="TraderDeal_Column_List" />
+        <include refid="TraderDeal_Column_List"/>
         from trader_deals
         where order_id = #{orderId,jdbcType=INTEGER}
     </select>
     <select id="doFindAllBySenderId" resultMap="TraderDealResultMap">
         select
-        <include refid="TraderDeal_Column_List" />
+        <include refid="TraderDeal_Column_List"/>
         from trader_deals
         where trade_sender = #{senderId,jdbcType=INTEGER}
     </select>
 
-    <insert id="doAddTraderDeal" parameterType="com.citi_team_one.tps.model.TraderDeal"  useGeneratedKeys="true" keyProperty="txnI" keyColumn="txn_i">
+    <insert id="doAddTraderDeal" parameterType="com.citi_team_one.tps.model.TraderDeal" useGeneratedKeys="true"
+            keyProperty="txnI" keyColumn="txn_i">
         insert into trader_deals
         <trim prefix="(" suffix=")" suffixOverrides=",">
             <if test="txnI != null">
