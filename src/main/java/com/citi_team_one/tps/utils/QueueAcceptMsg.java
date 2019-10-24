@@ -8,14 +8,15 @@ import com.citi_team_one.tps.service.TraderDealsService;
 import org.apache.activemq.ActiveMQConnectionFactory;
 import org.apache.activemq.command.ActiveMQQueue;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import javax.jms.*;
 
 public class QueueAcceptMsg implements MessageListener {
-    @Autowired
-    private SalerDealsService salerDealsService;
-    @Autowired
-    private TraderDealsService traderDealsService;
+//    @Autowired
+//    private SalerDealsService salerDealsService;
+//    @Autowired
+//    private TraderDealsService traderDealsService;
 
     public static final String user = "";
     public static final String pwd = "";
@@ -32,9 +33,14 @@ public class QueueAcceptMsg implements MessageListener {
     SalerDeal salerDeal;
     TraderDeal traderDeal;
 
-    public void acceptMsg(SalerDeal salerDeal, TraderDeal traderDeal) throws JMSException {
+    public QueueAcceptMsg(SalerDeal salerDeal, TraderDeal traderDeal) {
         this.salerDeal = salerDeal;
         this.traderDeal = traderDeal;
+    }
+
+    public void acceptMsg(SalerDeal salerDeal, TraderDeal traderDeal) throws JMSException {
+//        this.salerDeal = salerDeal;
+//        this.traderDeal = traderDeal;
         if (connectionfactory == null) {
             connectionfactory = new ActiveMQConnectionFactory(url);
 //            connectionfactory = new ActiveMQConnectionFactory(user,pwd,url);
@@ -48,7 +54,7 @@ public class QueueAcceptMsg implements MessageListener {
 
         Queue queue = new ActiveMQQueue(name);
         MessageConsumer consumer = session.createConsumer(queue);
-        consumer.setMessageListener(new QueueAcceptMsg());
+        consumer.setMessageListener(new QueueAcceptMsg(this.salerDeal,this.traderDeal));
     }
 
     @Override
@@ -63,13 +69,13 @@ public class QueueAcceptMsg implements MessageListener {
                 if (text.getText().equals("accept")) {
                     salerDeal.setStatus(StatusCode.ACCEPTED);
                     traderDeal.setStatus(StatusCode.ACCEPTED);
-                    salerDealsService.updateSalerDeal(salerDeal);
-                    traderDealsService.updateTraderDeal(traderDeal);
+                    ServiceUtil.serviceUtil.salerDealsService.updateSalerDeal(salerDeal);
+                    ServiceUtil.serviceUtil.traderDealsService.updateTraderDeal(traderDeal);
                 } else if (text.getText().equals("reject")) {
                     salerDeal.setStatus(StatusCode.REJECTED);
                     traderDeal.setStatus(StatusCode.REJECTED);
-                    salerDealsService.updateSalerDeal(salerDeal);
-                    traderDealsService.updateTraderDeal(traderDeal);
+                     ServiceUtil.serviceUtil.salerDealsService.updateSalerDeal(salerDeal);
+                     ServiceUtil.serviceUtil.traderDealsService.updateTraderDeal(traderDeal);
                 }
 
             } catch (JMSException e) {
