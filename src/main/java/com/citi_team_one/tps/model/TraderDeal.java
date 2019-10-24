@@ -26,6 +26,7 @@ public class TraderDeal implements Serializable {
     private Integer rejectCode;
     private String rejectReason;
     private String tradeOrigSys;
+
     public TraderDeal(Integer txnI, String productId, Integer volume,
                       Double price, Double notionalPrincipal, String orderId,
                       Integer tradeSender, Integer tradeReciver, Date timestamp,
@@ -49,6 +50,7 @@ public class TraderDeal implements Serializable {
         this.rejectReason = rejectReason;
         this.tradeOrigSys = tradeOrigSys;
     }
+
     public TraderDeal() {
         super();
     }

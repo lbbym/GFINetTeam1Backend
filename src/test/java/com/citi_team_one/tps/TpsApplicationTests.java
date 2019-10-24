@@ -1,6 +1,8 @@
 package com.citi_team_one.tps;
 
-import com.citi_team_one.tps.model.*;
+import com.citi_team_one.tps.model.ResponseBean;
+import com.citi_team_one.tps.model.SalerDeal;
+import com.citi_team_one.tps.model.TraderDeal;
 import com.citi_team_one.tps.service.CusipUserService;
 import com.citi_team_one.tps.service.SalerDealsService;
 import com.citi_team_one.tps.service.TraderDealsService;
@@ -91,9 +93,9 @@ class TpsApplicationTests {
 
     @Test
     void getCusips() {
-    //    String url = baseUrl + "/cusipUser?traderId=1&productId=1234";
-    //    restTemplate.getForEntity(url, null, Object.class);
-    //    assertEquals("id", 1.1, cusipUserService.findProductsByTraderId(1).get(0).getCoupon());
+        //    String url = baseUrl + "/cusipUser?traderId=1&productId=1234";
+        //    restTemplate.getForEntity(url, null, Object.class);
+        //    assertEquals("id", 1.1, cusipUserService.findProductsByTraderId(1).get(0).getCoupon());
     }
 
     @Test

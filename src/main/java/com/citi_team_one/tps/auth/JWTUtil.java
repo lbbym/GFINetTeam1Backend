@@ -1,4 +1,5 @@
 package com.citi_team_one.tps.auth;
+
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.JWTVerifier;
 import com.auth0.jwt.algorithms.Algorithm;
@@ -10,7 +11,7 @@ import java.util.Date;
 
 
 public class JWTUtil {
-    private static long EXPIRE_TIME=20*60*1000;
+    private static long EXPIRE_TIME = 20 * 60 * 1000;
 
     public static boolean verify(String token, String username, String secret) {
         try {
@@ -40,7 +41,7 @@ public class JWTUtil {
     //generate a token
     public static String sign(String username, String secret) {
         try {
-            Date date = new Date(System.currentTimeMillis()+EXPIRE_TIME);
+            Date date = new Date(System.currentTimeMillis() + EXPIRE_TIME);
             Algorithm algorithm = Algorithm.HMAC256(secret);
             // with username
             return JWT.create()

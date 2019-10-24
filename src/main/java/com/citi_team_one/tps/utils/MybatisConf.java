@@ -1,9 +1,10 @@
 package com.citi_team_one.tps.utils;
 
-import java.util.Properties;
+import com.github.pagehelper.PageHelper;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import com.github.pagehelper.PageHelper;
+
+import java.util.Properties;
 
 /*
  * 注册MyBatis分页插件PageHelper

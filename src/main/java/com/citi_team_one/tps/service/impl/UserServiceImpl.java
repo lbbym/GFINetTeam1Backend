@@ -21,7 +21,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User findByName(String name) {
-       return userMapper.doFindByName(name);
+        return userMapper.doFindByName(name);
     }
 
     @Override
@@ -30,7 +30,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public User addUser(User user){
+    public User addUser(User user) {
         user.setId(null);
         userMapper.doAddUser(user);
         return user;

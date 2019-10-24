@@ -1,58 +1,58 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.citi_team_one.tps.mapper.RoleMapper" >
-  <resultMap id="RoleResultMap" type="com.citi_team_one.tps.model.Role" >
-    <constructor >
-      <idArg column="id" jdbcType="INTEGER" javaType="java.lang.Integer" />
-      <arg column="role" jdbcType="VARCHAR" javaType="java.lang.String" />
-    </constructor>
-  </resultMap>
-  <sql id="Role_Column_List" >
+<mapper namespace="com.citi_team_one.tps.mapper.RoleMapper">
+    <resultMap id="RoleResultMap" type="com.citi_team_one.tps.model.Role">
+        <constructor>
+            <idArg column="id" jdbcType="INTEGER" javaType="java.lang.Integer"/>
+            <arg column="role" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        </constructor>
+    </resultMap>
+    <sql id="Role_Column_List">
     id, role
   </sql>
-  <select id="selectByPrimaryKey" resultMap="RoleResultMap" parameterType="java.lang.Integer" >
-    select 
-    <include refid="Role_Column_List" />
-    from role
-    where id = #{id,jdbcType=INTEGER}
-  </select>
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    <select id="selectByPrimaryKey" resultMap="RoleResultMap" parameterType="java.lang.Integer">
+        select
+        <include refid="Role_Column_List"/>
+        from role
+        where id = #{id,jdbcType=INTEGER}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from role
     where id = #{id,jdbcType=INTEGER}
   </delete>
-  <insert id="insert" parameterType="com.citi_team_one.tps.model.Role" >
+    <insert id="insert" parameterType="com.citi_team_one.tps.model.Role">
     insert into role (id, role)
     values (#{id,jdbcType=INTEGER}, #{role,jdbcType=VARCHAR})
   </insert>
-  <insert id="insertSelective" parameterType="com.citi_team_one.tps.model.Role" >
-    insert into role
-    <trim prefix="(" suffix=")" suffixOverrides="," >
-      <if test="id != null" >
-        id,
-      </if>
-      <if test="role != null" >
-        role,
-      </if>
-    </trim>
-    <trim prefix="values (" suffix=")" suffixOverrides="," >
-      <if test="id != null" >
-        #{id,jdbcType=INTEGER},
-      </if>
-      <if test="role != null" >
-        #{role,jdbcType=VARCHAR},
-      </if>
-    </trim>
-  </insert>
-  <update id="updateByPrimaryKeySelective" parameterType="com.citi_team_one.tps.model.Role" >
-    update role
-    <set >
-      <if test="role != null" >
-        role = #{role,jdbcType=VARCHAR},
-      </if>
-    </set>
-    where id = #{id,jdbcType=INTEGER}
-  </update>
-  <update id="updateByPrimaryKey" parameterType="com.citi_team_one.tps.model.Role" >
+    <insert id="insertSelective" parameterType="com.citi_team_one.tps.model.Role">
+        insert into role
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                id,
+            </if>
+            <if test="role != null">
+                role,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id,jdbcType=INTEGER},
+            </if>
+            <if test="role != null">
+                #{role,jdbcType=VARCHAR},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.citi_team_one.tps.model.Role">
+        update role
+        <set>
+            <if test="role != null">
+                role = #{role,jdbcType=VARCHAR},
+            </if>
+        </set>
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.citi_team_one.tps.model.Role">
     update role
     set role = #{role,jdbcType=VARCHAR}
     where id = #{id,jdbcType=INTEGER}

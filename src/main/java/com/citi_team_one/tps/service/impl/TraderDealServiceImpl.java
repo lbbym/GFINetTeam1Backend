@@ -1,11 +1,9 @@
 package com.citi_team_one.tps.service.impl;
 
 import com.citi_team_one.tps.mapper.TraderDealMapper;
-import com.citi_team_one.tps.model.StatusCode;
 import com.citi_team_one.tps.model.TraderDeal;
 import com.citi_team_one.tps.service.SalerDealsService;
 import com.citi_team_one.tps.service.TraderDealsService;
-import com.citi_team_one.tps.utils.DealMatcher;
 import com.citi_team_one.tps.utils.StatusUtil;
 import com.github.pagehelper.PageHelper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,7 +27,7 @@ public class TraderDealServiceImpl implements TraderDealsService {
 
     @Override
     public List<TraderDeal> findAllBySenderId(Integer senderId) {
-        return  traderDealMapper.doFindAllBySenderId(senderId);
+        return traderDealMapper.doFindAllBySenderId(senderId);
     }
 
     @Override
@@ -41,14 +39,16 @@ public class TraderDealServiceImpl implements TraderDealsService {
     @Override
     public TraderDeal addTraderDeal(TraderDeal newDeal) {
         newDeal.setTxnI(null);
+        newDeal.setVer(StatusUtil.stastr2int(newDeal.getStatus()) + newDeal.getInterVNum());
+
         traderDealMapper.doAddTraderDeal(newDeal);
         return newDeal;
     }
 
     @Override
     public TraderDeal updateTraderDeal(TraderDeal updatedDeal) {
-        updatedDeal.setNotionalPrincipal(updatedDeal.getVolume()*updatedDeal.getPrice());
-        updatedDeal.setVer(StatusUtil.stastr2int(updatedDeal.getStatus())+updatedDeal.getInterVNum());
+        updatedDeal.setNotionalPrincipal(updatedDeal.getVolume() * updatedDeal.getPrice());
+        updatedDeal.setVer(StatusUtil.stastr2int(updatedDeal.getStatus()) + updatedDeal.getInterVNum());
         traderDealMapper.doUpdateTraderDeal(updatedDeal);
         return updatedDeal;
     }

@@ -8,26 +8,28 @@
             <arg column="product_id" jdbcType="VARCHAR" javaType="java.lang.String"/>
         </constructor>
     </resultMap>
-    <resultMap id="ProductResultMap" type="com.citi_team_one.tps.model.Product" >
-        <constructor >
-            <idArg column="id" jdbcType="INTEGER" javaType="java.lang.Integer" />
-            <arg column="cusip" jdbcType="VARCHAR" javaType="java.lang.String" />
-            <arg column="face_value" jdbcType="DOUBLE" javaType="java.lang.Double" />
-            <arg column="coupon" jdbcType="DOUBLE" javaType="java.lang.Double" />
-            <arg column="maturity_date" jdbcType="TIMESTAMP" javaType="java.util.Date" />
+    <resultMap id="ProductResultMap" type="com.citi_team_one.tps.model.Product">
+        <constructor>
+            <idArg column="id" jdbcType="INTEGER" javaType="java.lang.Integer"/>
+            <arg column="cusip" jdbcType="VARCHAR" javaType="java.lang.String"/>
+            <arg column="face_value" jdbcType="DOUBLE" javaType="java.lang.Double"/>
+            <arg column="coupon" jdbcType="DOUBLE" javaType="java.lang.Double"/>
+            <arg column="maturity_date" jdbcType="TIMESTAMP" javaType="java.util.Date"/>
         </constructor>
     </resultMap>
 
     <sql id="CusipUser_Column_List">
     id, user_id, product_id
   </sql>
-    <sql id="Product_Column_List" >
+    <sql id="Product_Column_List">
     product.id, cusip, face_value, coupon, maturity_date
   </sql>
 
 
     <select id="doFindProductsByTraderId" resultMap="ProductResultMap" parameterType="java.lang.Integer">
-        SELECT <include refid="Product_Column_List"/> FROM cusip_user INNER JOIN product
+        SELECT
+        <include refid="Product_Column_List"/>
+        FROM cusip_user INNER JOIN product
         ON cusip_user.product_id = product.cusip
         where cusip_user.user_id = #{user_id,jdbcType=INTEGER}
     </select>
