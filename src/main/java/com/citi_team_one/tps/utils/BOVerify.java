@@ -10,7 +10,7 @@ public class BOVerify {
         QueueSendMsg qsg = new QueueSendMsg();
         qsg.sendMsg(salerDeal);
 
-        QueueAcceptMsg qam=new QueueAcceptMsg();
+        QueueAcceptMsg qam=new QueueAcceptMsg(salerDeal, traderDeal);
         qam.acceptMsg(salerDeal, traderDeal);
 
         return null;

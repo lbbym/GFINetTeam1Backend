@@ -41,19 +41,26 @@ public class DealMatcher {
     }
 
     public TraderDeal isMatch(SalerDeal salerDeal) throws JMSException {
-        salerDeal.setStatus(StatusCode.PENDING);
-        salerDealsService.addSalerDeal(salerDeal);
-        salerDealList.add(salerDeal);
-        synchronized (traderDealList){
-            for( TraderDeal traderDeal : traderDealList){
-                if(salerDeal.getTradeSender().equals(traderDeal.getTradeReciver()) &&
-                   salerDeal.getProductId().equals(traderDeal.getProductId()) &&
-                   salerDeal.getVolume().equals(traderDeal.getVolume())){
+        if (StatusCode.valueOf(salerDeal.getStatus()).equals(StatusCode.REQUESTED)) {
+            //this deal is here by adding
+            salerDeal.setStatus(StatusCode.PENDING);
+            salerDealsService.addSalerDeal(salerDeal);
+            salerDealList.add(salerDeal);
+        } else {
+            //this deal is here by updating
+            salerDeal.setStatus(StatusCode.PENDING);
+            salerDealsService.updateSalerDeal(salerDeal);
+        }
+        synchronized (traderDealList) {
+            for (TraderDeal traderDeal : traderDealList) {
+                if (salerDeal.getTradeSender().equals(traderDeal.getTradeReciver()) &&
+                        salerDeal.getProductId().equals(traderDeal.getProductId()) &&
+                        salerDeal.getVolume().equals(traderDeal.getVolume())) {
                     // set order_id when match
                     String randomString = UUID.randomUUID().toString();
                     traderDeal.setOrderId(randomString);
                     salerDeal.setOrderId(randomString);
-                    if(salerDeal.getPrice().equals(traderDeal.getPrice())){
+                    if (salerDeal.getPrice().equals(traderDeal.getPrice())) {
                         salerDeal.setStatus(StatusCode.TPS_PROCESSED);
                         salerDealsService.updateSalerDeal(salerDeal);
                         traderDeal.setStatus(StatusCode.TPS_PROCESSED);
@@ -79,19 +86,29 @@ public class DealMatcher {
     }
 
     public SalerDeal isMatch(TraderDeal traderDeal) throws JMSException {
-        traderDeal.setStatus(StatusCode.PENDING);
-        traderDealsService.addTraderDeal(traderDeal);
-        traderDealList.add(traderDeal);
-        synchronized (salerDealList){
-            for( SalerDeal salerDeal : salerDealList){
-                if(traderDeal.getTradeSender().equals(salerDeal.getTradeReciver()) &&
-                   traderDeal.getProductId().equals(salerDeal.getProductId()) &&
-                   traderDeal.getVolume().equals(salerDeal.getVolume())){
+//        traderDeal.setStatus(StatusCode.PENDING);
+//        traderDealsService.addTraderDeal(traderDeal);
+//        traderDealList.add(traderDeal);
+        if (StatusCode.valueOf(traderDeal.getStatus()).equals(StatusCode.REQUESTED)) {
+            //this deal is here by adding
+            traderDeal.setStatus(StatusCode.PENDING);
+            traderDealsService.addTraderDeal(traderDeal);
+            traderDealList.add(traderDeal);
+        } else {
+            //this deal is here by updating
+            traderDeal.setStatus(StatusCode.PENDING);
+            traderDealsService.updateTraderDeal(traderDeal);
+        }
+        synchronized (salerDealList) {
+            for (SalerDeal salerDeal : salerDealList) {
+                if (traderDeal.getTradeSender().equals(salerDeal.getTradeReciver()) &&
+                        traderDeal.getProductId().equals(salerDeal.getProductId()) &&
+                        traderDeal.getVolume().equals(salerDeal.getVolume())) {
                     // set order_id when match
                     String randomString = UUID.randomUUID().toString();
                     traderDeal.setOrderId(randomString);
                     salerDeal.setOrderId(randomString);
-                    if(traderDeal.getPrice().equals(salerDeal.getPrice())){
+                    if (traderDeal.getPrice().equals(salerDeal.getPrice())) {
                         traderDeal.setStatus(StatusCode.TPS_PROCESSED);
                         traderDealsService.updateTraderDeal(traderDeal);
                         salerDeal.setStatus(StatusCode.TPS_PROCESSED);

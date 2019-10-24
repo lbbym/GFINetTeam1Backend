@@ -13,6 +13,12 @@
   <sql id="Product_Column_List" >
     id, cusip, face_value, coupon, maturity_date
   </sql>
+  <select id="doFindAll" resultMap="ProductResultMap" >
+    select
+    <include refid="Product_Column_List" />
+    from product
+  </select>
+
   <select id="selectByPrimaryKey" resultMap="ProductResultMap" parameterType="java.lang.Integer" >
     select 
     <include refid="Product_Column_List" />

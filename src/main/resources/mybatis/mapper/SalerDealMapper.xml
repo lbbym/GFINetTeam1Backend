@@ -34,6 +34,13 @@
         from sale_deals
     </select>
 
+    <select id="doFindByTxnI" resultMap="SalerDealResultMap">
+        select
+        <include refid="SalerDeal_Column_List" />
+        from sale_deals
+        where txn_i = #{txnI,jdbcType=INTEGER}
+    </select>
+
     <select id="doFindByOrderId" resultMap="SalerDealResultMap">
         select
         <include refid="SalerDeal_Column_List" />

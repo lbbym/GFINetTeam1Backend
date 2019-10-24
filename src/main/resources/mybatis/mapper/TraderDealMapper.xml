@@ -28,6 +28,14 @@
         trade_orig_sys
     </sql>
 
+    <select id="doFindByTxnI" resultMap="TraderDealResultMap">
+        select
+        <include refid="TraderDeal_Column_List" />
+        from trader_deals
+        where txn_i = #{txnI,jdbcType=INTEGER}
+    </select>
+
+
     <select id="doFindAll" resultMap="TraderDealResultMap">
         select
         <include refid="TraderDeal_Column_List" />
